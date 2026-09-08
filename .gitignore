@@ -1,0 +1,12 @@
+# Godot 4 editor cache and generated files
+.godot/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Generated Android build directory
+/android/
+
+# Export presets may contain credentials, signing data, or local paths
+export_presets.cfg
