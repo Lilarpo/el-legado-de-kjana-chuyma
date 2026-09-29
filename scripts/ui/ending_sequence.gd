@@ -6,7 +6,6 @@ const MENU_SCENE := "res://scenes/ui/main_menu.tscn"
 const VIDEO_FADE_TIME := 0.35
 const FIN_FADE_IN_TIME := 0.65
 const FIN_HOLD_TIME := 2.5
-const FIN_FADE_OUT_TIME := 0.5
 const CONTINUARA_FADE_IN_TIME := 0.85
 const CONTINUARA_HOLD_TIME := 3.0
 
@@ -32,7 +31,11 @@ func _ready() -> void:
 	menu_button.hide()
 	accent.hide()
 	fade.modulate.a = 1.0
-	_start_video(1)
+	_start_ending()
+
+
+func _start_ending() -> void:
+	_start_video(2 if GameState.fragments_collected.size() >= 3 else 1)
 
 
 func _start_video(number: int) -> void:
@@ -83,9 +86,7 @@ func _show_fin() -> void:
 	ending_text.show()
 	await _fade_title(1.0, FIN_FADE_IN_TIME)
 	await get_tree().create_timer(FIN_HOLD_TIME).timeout
-	await _fade_title(0.0, FIN_FADE_OUT_TIME)
-	ending_text.hide()
-	_start_video(2)
+	await _show_return_button()
 
 
 func _show_continuara() -> void:
@@ -99,6 +100,10 @@ func _show_continuara() -> void:
 	ending_text.show()
 	await _fade_title(1.0, CONTINUARA_FADE_IN_TIME)
 	await get_tree().create_timer(CONTINUARA_HOLD_TIME).timeout
+	await _show_return_button()
+
+
+func _show_return_button() -> void:
 	accent.show()
 	menu_button.modulate.a = 0.0
 	menu_button.show()
@@ -132,7 +137,7 @@ func _fade_button() -> void:
 
 
 func _return_to_menu() -> void:
-	if _returning_to_menu or _stage != 4 or not menu_button.visible:
+	if _returning_to_menu or _stage not in [3, 4] or not menu_button.visible:
 		return
 	_returning_to_menu = true
 	_clear_video()

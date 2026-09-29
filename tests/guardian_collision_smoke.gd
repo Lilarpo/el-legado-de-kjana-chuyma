@@ -83,8 +83,8 @@ func run() -> void:
 	boss.state = GuardianSediento.State.IDLE
 	set_pose(&"idle_phase2", 0)
 	await capture("idle_phase2")
-	await contact(Vector2(-85, 60), true, "Phase 2 left coil")
-	await contact(Vector2(85, 60), true, "Phase 2 right coil")
+	await contact(Vector2(-85, 60), true, "Phase 2 left side")
+	await contact(Vector2(85, 60), true, "Phase 2 right side")
 	await contact(Vector2(0, -65), true, "Phase 2 head")
 	await vulnerable_hit(Vector2(-98, -35), true, "Phase 2 upper body can be hit")
 	boss.state = GuardianSediento.State.ATTACK_WINDUP
@@ -104,10 +104,10 @@ func run() -> void:
 	set_pose(&"death", 0)
 	await capture("death")
 	await tick()
-	check(boss.collision_layer == 0 and boss.body_collision.disabled and boss.body_coil_collision.disabled and not boss.bite_hitbox.monitoring and not boss.sweep_hitbox.monitoring, "Death deactivates both body colliders and attacks")
+	check(boss.collision_layer == 0 and boss.body_collision.disabled and not boss.bite_hitbox.monitoring and not boss.sweep_hitbox.monitoring, "Death deactivates body collider and attacks")
 	boss.reset_boss_fight()
 	await tick()
-	check(not boss.body_collision.disabled and not boss.body_coil_collision.disabled, "Retry restores both body colliders")
+	check(not boss.body_collision.disabled, "Retry restores the body collider")
 	print("GUARDIAN COLLISION RESULT: ", checks, " checks; ", failures.size(), " failures: ", failures)
 	MusicManager.stop_music(0.0)
 	await get_tree().create_timer(0.1, true).timeout

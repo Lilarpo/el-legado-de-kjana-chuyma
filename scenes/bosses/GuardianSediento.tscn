@@ -1,13 +1,13 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/bosses/guardian_sediento.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/enemies/contact_damage.gd" id="2_contact"]
 
 [sub_resource type="RectangleShape2D" id="Shape_body"]
-size = Vector2(112, 148)
+size = Vector2(142, 148)
 
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
-size = Vector2(128, 152)
+size = Vector2(150, 154)
 
 [sub_resource type="RectangleShape2D" id="Shape_bite"]
 size = Vector2(100, 92)
@@ -16,16 +16,7 @@ size = Vector2(100, 92)
 size = Vector2(300, 80)
 
 [sub_resource type="RectangleShape2D" id="Shape_contact"]
-size = Vector2(126, 150)
-
-[sub_resource type="RectangleShape2D" id="Shape_body_coil"]
-size = Vector2(152, 62)
-
-[sub_resource type="RectangleShape2D" id="Shape_hurt_coil"]
-size = Vector2(164, 66)
-
-[sub_resource type="RectangleShape2D" id="Shape_contact_coil"]
-size = Vector2(164, 66)
+size = Vector2(146, 150)
 
 [node name="GuardianSediento" type="CharacterBody2D"]
 collision_layer = 4
@@ -39,10 +30,6 @@ texture_filter = 1
 position = Vector2(0, 26)
 shape = SubResource("Shape_body")
 
-[node name="BodyCoilCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 69)
-shape = SubResource("Shape_body_coil")
-
 [node name="ContactDamage" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
@@ -54,10 +41,6 @@ require_active = true
 position = Vector2(0, 25)
 shape = SubResource("Shape_contact")
 
-[node name="CoilCollision" type="CollisionShape2D" parent="ContactDamage"]
-position = Vector2(0, 67)
-shape = SubResource("Shape_contact_coil")
-
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 8
@@ -65,12 +48,8 @@ monitoring = false
 monitorable = false
 
 [node name="Collision" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, 24)
+position = Vector2(0, 23)
 shape = SubResource("Shape_hurt")
-
-[node name="CoilCollision" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, 67)
-shape = SubResource("Shape_hurt_coil")
 
 [node name="BiteHitbox" type="Area2D" parent="."]
 position = Vector2(90, 30)

@@ -5,6 +5,7 @@ signal player_died
 @warning_ignore("unused_signal")
 signal fragment_collected(id: String)
 signal leaves_changed(total: int)
+signal protection_changed(potions: int, hits: int)
 signal leaves_restored(remaining_ids: Array[String])
 signal ability_unlocked(ability_id: String)
 signal heart_upgraded(maximum: int)
@@ -16,6 +17,9 @@ signal finale_ready
 @export var fragments_collected: Array[String] = []
 @export var leaves_collected: int = 0
 var collected_leaf_ids: Array[String] = []
+var protection_potions := 0
+var protection_hits_remaining := 0
+var collected_potion_drop_ids: Array[String] = []
 var heart_upgrades := 0
 var death_screen_active := false
 const MAX_HEART_UPGRADES := 3
@@ -35,6 +39,7 @@ var finale_triggered := false
 var checkpoint_id := ""
 var resume_from_save := false
 var save_file_path := "user://savegame.cfg"
+var _potion_save_bound := false
 
 const SAVE_SCENES := [
 	"res://scenes/levels/level01_orillas_del_lago.tscn",
@@ -54,6 +59,9 @@ func reset_for_new_game() -> void:
 	fragments_collected.clear()
 	leaves_collected = 0
 	collected_leaf_ids.clear()
+	protection_potions = 0
+	protection_hits_remaining = 0
+	collected_potion_drop_ids.clear()
 	checkpoint_leaves = 0
 	checkpoint_leaf_ids.clear()
 	unlocked_abilities["double_jump"] = false
@@ -62,12 +70,14 @@ func reset_for_new_game() -> void:
 	checkpoint_scene = ""
 	checkpoint_id = ""
 	resume_from_save = false
+	_potion_save_bound = false
 	pending_spawn_id = &""
 	guardian_defeated = false
 	final_fragment_collected = false
 	finale_triggered = false
 	health_changed.emit(current_health, max_health)
 	leaves_changed.emit(leaves_collected)
+	protection_changed.emit(protection_potions, protection_hits_remaining)
 	leaves_restored.emit(checkpoint_leaf_ids.duplicate())
 	guardian_defeated_changed.emit(false)
 
@@ -95,6 +105,58 @@ func set_checkpoint(pos: Vector2, scene_path: String, altar_id: String = "") -> 
 	checkpoint_id = altar_id
 	checkpoint_leaves = leaves_collected
 	checkpoint_leaf_ids = collected_leaf_ids.duplicate()
+
+
+func register_potion_collected(id: String) -> bool:
+	if id.is_empty() or collected_potion_drop_ids.has(id):
+		return false
+	collected_potion_drop_ids.append(id)
+	protection_potions += 1
+	protection_changed.emit(protection_potions, protection_hits_remaining)
+	_persist_potion_progress()
+	return true
+
+
+func use_protection_potion() -> bool:
+	if protection_potions <= 0 or protection_hits_remaining > 0:
+		return false
+	protection_potions -= 1
+	protection_hits_remaining = 3
+	protection_changed.emit(protection_potions, protection_hits_remaining)
+	_persist_potion_progress()
+	return true
+
+
+func absorb_protected_hit() -> bool:
+	if protection_hits_remaining <= 0:
+		return false
+	protection_hits_remaining -= 1
+	protection_changed.emit(protection_potions, protection_hits_remaining)
+	return true
+
+
+func clear_protection() -> void:
+	if protection_hits_remaining == 0:
+		return
+	protection_hits_remaining = 0
+	protection_changed.emit(protection_potions, 0)
+
+
+func _persist_potion_progress() -> void:
+	# Potion pickups/uses are permanent even if Continue reloads an older checkpoint.
+	# Preserve the checkpoint and every unrelated progress field in that save.
+	# The in-memory respawn point can change on a level transition before the next altar.
+	# Keep updating potion progress in this run's save without moving its checkpoint.
+	if not _potion_save_bound or _read_save_data().is_empty():
+		return
+	var save := ConfigFile.new()
+	if save.load(save_file_path) != OK:
+		return
+	save.set_value("progress", "protection_potions", protection_potions)
+	save.set_value("progress", "collected_potion_drop_ids", collected_potion_drop_ids)
+	var result := save.save(save_file_path)
+	if result != OK:
+		push_warning("No se pudo guardar el progreso de pociones: %s" % error_string(result))
 
 
 func collect_leaf(id: String) -> void:
@@ -176,6 +238,8 @@ func save_at_checkpoint() -> bool:
 	save.set_value("progress", "leaves_collected", leaves_collected)
 	save.set_value("progress", "collected_leaf_ids", collected_leaf_ids)
 	save.set_value("progress", "fragments_collected", fragments_collected)
+	save.set_value("progress", "protection_potions", protection_potions)
+	save.set_value("progress", "collected_potion_drop_ids", collected_potion_drop_ids)
 	save.set_value("progress", "double_jump", unlocked_abilities.get("double_jump", false))
 	save.set_value("progress", "counterattack", unlocked_abilities.get("counterattack", false))
 	save.set_value("progress", "guardian_defeated", guardian_defeated)
@@ -184,6 +248,8 @@ func save_at_checkpoint() -> bool:
 	var result := save.save(save_file_path)
 	if result != OK:
 		push_warning("No se pudo guardar la partida: %s" % error_string(result))
+	else:
+		_potion_save_bound = true
 	return result == OK
 
 
@@ -208,6 +274,17 @@ func load_save() -> bool:
 	fragments_collected.clear()
 	for fragment_id: String in data["fragments_collected"]:
 		fragments_collected.append(fragment_id)
+	protection_potions = data["protection_potions"]
+	protection_hits_remaining = 0
+	collected_potion_drop_ids.clear()
+	for drop_id: String in data["collected_potion_drop_ids"]:
+		var current_id := drop_id
+		if drop_id == "l1_enemy_zone05_b":
+			current_id = "protection_potion_01"
+		elif drop_id == "l3_condor_level3_03":
+			current_id = "protection_potion_02"
+		if not collected_potion_drop_ids.has(current_id):
+			collected_potion_drop_ids.append(current_id)
 	checkpoint_leaves = leaves_collected
 	checkpoint_leaf_ids = collected_leaf_ids.duplicate()
 	unlocked_abilities["double_jump"] = data["double_jump"]
@@ -218,8 +295,10 @@ func load_save() -> bool:
 	death_screen_active = false
 	pending_spawn_id = &""
 	resume_from_save = true
+	_potion_save_bound = true
 	health_changed.emit(current_health, max_health)
 	leaves_changed.emit(leaves_collected)
+	protection_changed.emit(protection_potions, 0)
 	leaves_restored.emit(collected_leaf_ids.duplicate())
 	guardian_defeated_changed.emit(guardian_defeated)
 	return true
@@ -265,6 +344,12 @@ func _read_save_data() -> Dictionary:
 		if not save.has_section_key(section, field):
 			return {}
 		data[key] = save.get_value(section, field)
+	data["protection_potions"] = save.get_value("progress", "protection_potions", 0)
+	data["collected_potion_drop_ids"] = save.get_value("progress", "collected_potion_drop_ids", [])
+	if not (data["protection_potions"] is int and data["protection_potions"] >= 0 and data["collected_potion_drop_ids"] is Array):
+		return {}
+	if not _valid_unique_ids(data["collected_potion_drop_ids"]):
+		return {}
 	if not (data["scene"] is String and SAVE_SCENES.has(data["scene"]) and ResourceLoader.exists(data["scene"], "PackedScene")):
 		return {}
 	if not (data["id"] is String and not data["id"].is_empty() and data["position"] is Vector2):

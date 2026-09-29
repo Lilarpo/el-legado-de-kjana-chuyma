@@ -3,15 +3,22 @@ extends CanvasLayer
 @onready var hearts: HBoxContainer = $MarginContainer/Content/Hearts
 @onready var leaves_label: Label = $MarginContainer/Content/LeavesDisplay/LeavesLabel
 @onready var fragments_label: Label = $MarginContainer/Content/FragmentsDisplay/FragmentsLabel
+@onready var potion_icon: TextureRect = $MarginContainer/Content/PotionDisplay/PotionIcon
+@onready var potion_label: Label = $MarginContainer/Content/PotionDisplay/PotionLabel
+@onready var shield_label: Label = $MarginContainer/Content/PotionDisplay/ShieldLabel
+@onready var potion_button: Button = $MarginContainer/Content/PotionDisplay/PotionButton
 
 
 func _ready() -> void:
 	GameState.health_changed.connect(_on_health_changed)
 	GameState.leaves_changed.connect(_on_leaves_changed)
 	GameState.fragment_collected.connect(_on_fragment_collected)
+	GameState.protection_changed.connect(_on_protection_changed)
+	potion_button.pressed.connect(_on_potion_pressed)
 	_on_health_changed(GameState.current_health, GameState.max_health)
 	_on_leaves_changed(GameState.leaves_collected)
 	_update_fragments()
+	_on_protection_changed(GameState.protection_potions, GameState.protection_hits_remaining)
 
 
 func _on_health_changed(current_health: int, max_health: int) -> void:
@@ -43,3 +50,18 @@ func _on_fragment_collected(_id: String) -> void:
 
 func _update_fragments() -> void:
 	fragments_label.text = "%d/3" % GameState.fragments_collected.size()
+
+func _on_protection_changed(potions: int, hits: int) -> void:
+	potion_label.text = "x%d" % potions
+	shield_label.text = "ESCUDO %d" % hits
+	shield_label.visible = hits > 0
+	potion_button.disabled = potions <= 0 or hits > 0
+
+
+func _on_potion_pressed() -> void:
+	var scene := get_tree().current_scene
+	if scene == null:
+		return
+	var player := scene.get_node_or_null("Player") as WayraPlayer
+	if player != null:
+		player.try_use_protection_potion()

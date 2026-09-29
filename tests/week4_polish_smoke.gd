@@ -223,7 +223,7 @@ func test_combat() -> void:
 			check(boss.successful_parries == posture_before and not player.counterattack_ready, "P%d attack%d: early hold/contact cannot grant perfect" % [phase, attack])
 			var flash = boss._spawned_vfx.back()
 			var animation_duration: float = 4.0 / (36.0 * flash.get_node("Sprite").speed_scale)
-			check(animation_duration >= 0.099 and animation_duration <= 0.16, "Flash covers actual pre-hit frame")
+			check(animation_duration >= 0.19 and animation_duration <= 0.28, "Flash covers actual pre-hit frame")
 			var health_before := GameState.current_health
 			player.take_damage(1, boss)
 			check(GameState.current_health == health_before and boss.successful_parries == posture_before, "Normal block grants no posture")
@@ -277,6 +277,8 @@ func test_combat() -> void:
 	check(flashes_left == 0, "Parry flashes self-destruct")
 
 func test_death(exit_to_menu: bool) -> void:
+	# Physics is disabled by this harness, so prior damage i-frames do not tick down.
+	player._damage_invulnerability_left = 0.0
 	player.take_damage(GameState.max_health)
 	var death = level.get_node("PauseMenu/DeathScreen")
 	check(GameState.current_health == 0 and get_tree().paused and player.input_locked, "Zero HP stops gameplay immediately")
@@ -311,7 +313,7 @@ func test_natural_flash_timing() -> void:
 				await get_tree().process_frame
 			var elapsed := float(Time.get_ticks_msec() - opened) / 1000.0
 			# Desktop rendering/capture can stall frames; measure wall time only headless.
-			var timing_ok := DisplayServer.get_name() != "headless" or (elapsed >= 0.075 and elapsed <= 0.20)
+			var timing_ok := DisplayServer.get_name() != "headless" or (elapsed >= 0.14 and elapsed <= 0.29)
 			check(timing_ok and boss.state == GuardianSediento.State.ATTACK_ACTIVE, "Natural perfect window closes as hitbox activates (%.3fs)" % elapsed)
 			boss.sprite.pause()
 			boss._set_all_attack_hitboxes(false)

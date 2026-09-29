@@ -711,6 +711,8 @@ position = Vector2(3350, 300)
 position = Vector2(5250, 420)
 [node name="Condor_Level3_03" parent="FutureCondorSpawns" instance=ExtResource("10_condor")]
 position = Vector2(11150, 250)
+drops_protection_potion = true
+potion_drop_id = "protection_potion_02"
 [node name="Condor_Level3_04" parent="FutureCondorSpawns" instance=ExtResource("10_condor")]
 position = Vector2(14900, 300)
 

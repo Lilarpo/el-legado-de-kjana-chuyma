@@ -525,6 +525,8 @@ position = Vector2(3200, 620)
 
 [node name="Enemy_Zone05_B" parent="Enemies" unique_id=1767973911 instance=ExtResource("4_enemy")]
 position = Vector2(4750, 620)
+drops_protection_potion = true
+potion_drop_id = "protection_potion_01"
 
 [node name="Enemy_Zone06_A" parent="Enemies" unique_id=1069466510 instance=ExtResource("4_enemy")]
 position = Vector2(5750, 620)

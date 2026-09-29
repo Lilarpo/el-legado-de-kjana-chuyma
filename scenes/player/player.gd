@@ -31,6 +31,7 @@ const PARRY_DURATION := 0.3
 const HURT_DURATION := 0.3
 const DAMAGE_FEEDBACK_DURATION := 0.15
 const DAMAGE_INVULNERABILITY_DURATION := 0.7
+const GUARDIAN_PARRY_CONTACT_GRACE := 0.2
 const CAMERA_SHAKE_AMPLITUDE := 3.0
 const FOOTSTEP_INTERVAL := 0.27
 const FOOTSTEP_01 := preload("res://assets/audio/sfx/player/footstep_01.wav")
@@ -107,6 +108,8 @@ var _hitbox_time_left := 0.0
 var _hit_targets: Dictionary = {}
 var _damage_feedback_time_left := 0.0
 var _damage_invulnerability_left := 0.0
+var _guardian_contact_grace_left := 0.0
+var _protection_flash_tween: Tween
 var _camera_rest_position := Vector2.ZERO
 var _visual_one_shot_active := false
 var _jumps_used := 0
@@ -122,6 +125,7 @@ func _physics_process(delta: float) -> void:
 	if state == State.DEAD:
 		return
 	_damage_invulnerability_left = maxf(_damage_invulnerability_left - delta, 0.0)
+	_guardian_contact_grace_left = maxf(_guardian_contact_grace_left - delta, 0.0)
 	var was_on_floor := is_on_floor()
 	if is_on_floor():
 		_jumps_used = 0
@@ -179,7 +183,14 @@ func _process(delta: float) -> void:
 func _handle_state_input() -> void:
 	if input_locked:
 		return
-	if state in [State.ATTACK, State.PARRY, State.HURT]:
+	if _is_action_just_pressed("use_protection_potion"):
+		try_use_protection_potion()
+	if state == State.PARRY:
+		# A fresh press inside the flash must work even if an earlier parry animation is still ending.
+		if _is_action_just_pressed("parry"):
+			_enter_parry()
+		return
+	if state in [State.ATTACK, State.HURT]:
 		return
 
 	if _is_action_just_pressed("attack"):
@@ -386,6 +397,13 @@ func _enter_parry() -> void:
 
 
 func take_damage(amount: int, attacker: Node2D = null, contact: bool = false) -> void:
+	if contact and attacker is GuardianSediento:
+		if _guardian_contact_grace_left > 0.0:
+			return
+		# Contact can be processed before Player input in the same physics frame.
+		# Defer it for that frame; only the attack window can award Perfect Parry.
+		if _is_action_just_pressed("parry") and attacker.is_parryable_windup():
+			return
 	if state == State.DEAD or GameState.current_health <= 0 or _damage_invulnerability_left > 0.0:
 		return
 	if not contact and state == State.PARRY and is_instance_valid(attacker) and attacker.has_method("stun"):
@@ -398,6 +416,9 @@ func take_damage(amount: int, attacker: Node2D = null, contact: bool = false) ->
 	if amount <= 0:
 		return
 	_damage_invulnerability_left = DAMAGE_INVULNERABILITY_DURATION
+	if GameState.absorb_protected_hit():
+		_flash_protection(GameState.protection_hits_remaining == 0)
+		return
 	GameState.take_damage(amount)
 	_play_player_sfx(_feedback_audio, HIT_SFX, 1.0, 1.0)
 	current_health = GameState.current_health
@@ -419,7 +440,26 @@ func take_damage(amount: int, attacker: Node2D = null, contact: bool = false) ->
 	velocity.x = knockback_direction * speed * 0.5
 
 
+func try_use_protection_potion() -> void:
+	if input_locked or state == State.DEAD:
+		return
+	if GameState.use_protection_potion():
+		_flash_protection(false)
+
+
+func _flash_protection(broken: bool) -> void:
+	# self_modulate is independent of the existing damage/counterattack modulate.
+	var tint := Color(0.9, 1.0, 1.0) if broken else Color(0.52, 1.0, 0.96)
+	if _protection_flash_tween != null and _protection_flash_tween.is_valid():
+		_protection_flash_tween.kill()
+	sprite.self_modulate = tint
+	_protection_flash_tween = create_tween()
+	_protection_flash_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.38 if broken else 0.45)
+
+
 func _register_parry(enemy: Node2D) -> void:
+	if enemy is GuardianSediento:
+		_guardian_contact_grace_left = GUARDIAN_PARRY_CONTACT_GRACE
 	counterattack_ready = GameState.unlocked_abilities.get("counterattack", false)
 	_play_player_sfx(_feedback_audio, PARRY_SUCCESS_SFX, 1.0, 4.0)
 	parry_success.emit(enemy)
@@ -474,12 +514,15 @@ func begin_death() -> void:
 	if state == State.DEAD:
 		return
 	state = State.DEAD
+	GameState.clear_protection()
+	_guardian_contact_grace_left = 0.0
 	input_locked = true
 	velocity = Vector2.ZERO
 	counterattack_ready = false
 	hit_box.set_deferred("monitoring", false)
 	parry_zone.set_deferred("monitoring", false)
 	sprite.modulate = Color.WHITE
+	sprite.self_modulate = Color.WHITE
 	sprite.process_mode = Node.PROCESS_MODE_ALWAYS
 	# The project has no death sheet; retain its existing hurt one-shot.
 	_play_animation(&"death" if sprite.sprite_frames.has_animation(&"death") else &"hurt", true, true)
@@ -493,9 +536,11 @@ func finish_respawn() -> void:
 	_hitbox_time_left = 0.0
 	_damage_feedback_time_left = 0.0
 	_damage_invulnerability_left = 0.0
+	_guardian_contact_grace_left = 0.0
 	_hit_targets.clear()
 	sprite.process_mode = Node.PROCESS_MODE_INHERIT
 	sprite.modulate = Color.WHITE
+	sprite.self_modulate = Color.WHITE
 	_visual_one_shot_active = false
 	if camera != null:
 		camera.position = _camera_rest_position

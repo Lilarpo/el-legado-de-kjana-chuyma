@@ -22,24 +22,27 @@ enum State {
 @export var hover_amplitude := 6.0
 
 @export_category("Detection")
-@export var detection_range_x := 384.0
-@export var detection_range_y := 276.0
+@export var detection_range_x := 442.0
+@export var detection_range_y := 320.0
 @export var tracking_time_min := 0.35
 @export var tracking_time_max := 0.85
 
 @export_category("Dive")
 @export var dive_windup_duration := 0.45
-@export var dive_speed := 280.0
-@export var dive_recovery_duration := 0.4
+@export var dive_speed := 297.0
+@export var dive_recovery_duration := 0.35
 @export var return_speed := 126.0
 @export var max_distance_from_spawn := 420.0
-@export var attack_cooldown_min := 1.23
-@export var attack_cooldown_max := 2.05
+@export var attack_cooldown_min := 1.08
+@export var attack_cooldown_max := 1.8
 @export var parry_stun_duration := 1.8
 
 @export_category("Health")
 @export var max_health := 3
 @export var stompable := false
+@export var drops_protection_potion := false
+@export var potion_drop_id := ""
+var _potion_drop_spawned := false
 
 @export_category("Debug")
 @export var debug_ai := false
@@ -508,7 +511,20 @@ func _play_animation(animation_name: StringName, restart := false) -> void:
 
 func _on_animation_finished() -> void:
 	if state == State.DEAD and sprite.animation == &"death":
+		_spawn_protection_potion()
 		queue_free()
+
+
+func _spawn_protection_potion() -> void:
+	if _potion_drop_spawned or not drops_protection_potion or potion_drop_id.is_empty():
+		return
+	if GameState.collected_potion_drop_ids.has(potion_drop_id):
+		return
+	_potion_drop_spawned = true
+	var pickup := preload("res://scenes/objects/ProtectionPotionPickup.tscn").instantiate()
+	pickup.drop_id = potion_drop_id
+	get_tree().current_scene.add_child(pickup)
+	pickup.global_position = global_position + Vector2(0.0, -12.0)
 
 
 func _draw() -> void:

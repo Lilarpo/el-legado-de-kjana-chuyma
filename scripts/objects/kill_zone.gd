@@ -21,7 +21,10 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	_bodies_respawning[body_id] = true
-	GameState.take_damage(1)
+	if body is WayraPlayer:
+		body.take_damage(1, self)
+	else:
+		GameState.take_damage(1)
 	if GameState.current_health <= 0:
 		return
 

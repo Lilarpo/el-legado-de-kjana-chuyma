@@ -69,6 +69,7 @@ const BITE_SPEED_PHASE1 := 620.0
 const BITE_SPEED_PHASE2 := 760.0
 const ARENA_MARGIN := 170.0
 const INTRO_HOLD := 0.9
+const PERFECT_PARRY_WINDOW_DURATION := 0.22
 # Body contact rows, excluding detached sparks below the coils. The root and
 # collision bottom stay at local Y=100; source textures are left untouched.
 const PHASE1_BODY_BASE := [244, 243, 237, 244, 234, 234, 245, 244, 244, 246, 245, 246, 242, 242, 244, 226, 244, 226, 218, 218, 216, 217, 216, 216, 240, 240, 242, 243, 245, 232]
@@ -78,7 +79,6 @@ const DEATH_BODY_BASE := [440, 448, 440, 440, 440, 440, 440, 440]
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var body_collision: CollisionShape2D = $BodyCollision
-@onready var body_coil_collision: CollisionShape2D = $BodyCoilCollision
 @onready var hurt_box: Area2D = $HurtBox
 @onready var bite_hitbox: Area2D = $BiteHitbox
 @onready var sweep_hitbox: Area2D = $SweepHitbox
@@ -372,6 +372,7 @@ func stun(parried_enemy: Node2D = null) -> void:
 		return
 	if not _perfect_parry_confirmed or not _perfect_parry_open or not can_be_parried():
 		return
+	_attack_damage_done = true
 	_set_all_attack_hitboxes(false)
 	parry_cue.visible = false
 	velocity = Vector2.ZERO
@@ -492,7 +493,6 @@ func _die() -> void:
 	collision_layer = 0
 	collision_mask = 0
 	body_collision.set_deferred("disabled", true)
-	body_coil_collision.set_deferred("disabled", true)
 	_set_death_visuals()
 	_play_animation(&"death", true)
 
@@ -530,7 +530,6 @@ func reset_boss_fight() -> void:
 	collision_layer = 4
 	collision_mask = 1
 	body_collision.set_deferred("disabled", false)
-	body_coil_collision.set_deferred("disabled", false)
 	hurt_box.monitorable = false
 	_set_all_attack_hitboxes(false)
 	parry_cue.visible = false
@@ -810,6 +809,7 @@ func _add_animation(
 	frames.set_animation_speed(animation_name, fps)
 	frames.set_animation_loop(animation_name, loop)
 	var columns := floori(float(texture.get_width()) / float(cell_size))
+	var sequence_index := 0
 	for frame_index: int in indices:
 		var atlas := AtlasTexture.new()
 		atlas.atlas = texture
@@ -819,11 +819,18 @@ func _add_animation(
 			cell_size,
 			cell_size
 		)
-		frames.add_frame(animation_name, atlas)
+		var is_parry_cue_frame := (animation_name in [&"bite_phase1", &"bite_phase2"] and sequence_index == 3) or (animation_name in [&"sweep_phase1", &"sweep_phase2"] and sequence_index == 1)
+		frames.add_frame(animation_name, atlas, PERFECT_PARRY_WINDOW_DURATION * fps if is_parry_cue_frame else 1.0)
+		sequence_index += 1
 
 
 func can_be_parried() -> bool:
-	return active and state in [State.ATTACK_WINDUP, State.ATTACK_ACTIVE] and _current_attack in [Attack.BITE, Attack.BITE_DOUBLE, Attack.SWEEP]
+	return active and state == State.ATTACK_WINDUP and _perfect_parry_open and _current_attack in [Attack.BITE, Attack.BITE_DOUBLE, Attack.SWEEP]
+
+
+func is_parryable_windup() -> bool:
+	# Used only to defer same-frame body contact so the input can resolve first.
+	return active and state == State.ATTACK_WINDUP and _current_attack in [Attack.BITE, Attack.BITE_DOUBLE, Attack.SWEEP]
 
 
 func try_perfect_parry(player: WayraPlayer) -> bool:
