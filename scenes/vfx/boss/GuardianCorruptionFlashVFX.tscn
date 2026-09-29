@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/one_shot_sprite_vfx.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/checkpoints/shrine/shrine_activation.png" id="2_texture"]
+
+[node name="GuardianCorruptionFlashVFX" type="Node2D"]
+z_index = 20
+script = ExtResource("1_script")
+sprite_sheet = ExtResource("2_texture")
+frame_count = 6
+columns = 6
+frames_per_second = 18.0
+display_scale = Vector2(3, 3)
+tint = Color(0.76, 1, 0.97, 0.82)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1

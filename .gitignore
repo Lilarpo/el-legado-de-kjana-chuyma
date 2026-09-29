@@ -10,3 +10,21 @@
 
 # Export presets may contain credentials, signing data, or local paths
 export_presets.cfg
+
+# Editor and operating-system leftovers
+*.log
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local secrets and signing material
+.env
+.env.*
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.key

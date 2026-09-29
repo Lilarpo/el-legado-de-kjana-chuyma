@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/parry_flash.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/vfx/parry_flash_sheet.png" id="2_sheet"]
+
+[sub_resource type="AtlasTexture" id="Frame_0"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 0, 543, 724)
+
+[sub_resource type="AtlasTexture" id="Frame_1"]
+atlas = ExtResource("2_sheet")
+region = Rect2(543, 0, 543, 724)
+
+[sub_resource type="AtlasTexture" id="Frame_2"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1086, 0, 543, 724)
+
+[sub_resource type="AtlasTexture" id="Frame_3"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1629, 0, 543, 724)
+
+[sub_resource type="SpriteFrames" id="Frames_flash"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("Frame_0")}, {"duration": 1.0, "texture": SubResource("Frame_1")}, {"duration": 1.0, "texture": SubResource("Frame_2")}, {"duration": 1.0, "texture": SubResource("Frame_3")}],
+"loop": false,
+"name": &"flash",
+"speed": 36.0
+}]
+
+[node name="ParryFlash" type="Node2D"]
+z_index = 20
+script = ExtResource("1_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.07, 0.07)
+sprite_frames = SubResource("Frames_flash")
+animation = &"flash"

@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/espectro_sediento.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/enemies/contact_damage.gd" id="2_contact"]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(34, 68)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt_box"]
+size = Vector2(38, 72)
+
+[sub_resource type="RectangleShape2D" id="Shape_attack"]
+size = Vector2(68, 52)
+
+[sub_resource type="RectangleShape2D" id="Shape_contact"]
+size = Vector2(38, 78)
+
+[node name="EspectroSediento" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -62)
+scale = Vector2(2.65, 2.65)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -11)
+shape = SubResource("Shape_body")
+
+[node name="ContactDamage" type="Area2D" parent="."]
+position = Vector2(0, -10)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_contact")
+inactive_states = PackedInt32Array(9)
+
+[node name="Collision" type="CollisionShape2D" parent="ContactDamage"]
+shape = SubResource("Shape_contact")
+
+[node name="HurtBox" type="Area2D" parent="."]
+position = Vector2(0, -13)
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+monitorable = true
+
+[node name="Collision" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("Shape_hurt_box")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+position = Vector2(46, -5)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = true
+
+[node name="Collision" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("Shape_attack")
+
+[node name="ParryCue" type="Marker2D" parent="."]
+position = Vector2(46, -43)
+
+[node name="WallRay" type="RayCast2D" parent="."]
+target_position = Vector2(24, 0)
+collision_mask = 1
+enabled = true
+
+[node name="FloorRay" type="RayCast2D" parent="."]
+position = Vector2(28, 8)
+target_position = Vector2(0, 28)
+collision_mask = 1
+enabled = true
+
+[node name="DetectAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="AttackAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="HurtAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="ParryAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="DeathAudio" type="AudioStreamPlayer2D" parent="."]

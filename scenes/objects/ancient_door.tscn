@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/ancient_door.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/environment/ruinas_ancestrales/mechanisms/ancient_central_door.png" id="2_door"]
+
+[sub_resource type="RectangleShape2D" id="Shape_door"]
+size = Vector2(80, 480)
+
+[node name="AncientDoor" type="StaticBody2D"]
+texture_filter = 1
+collision_layer = 1
+collision_mask = 6
+script = ExtResource("1_script")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="DoorSprite" type="Sprite2D" parent="Visual"]
+texture = ExtResource("2_door")
+z_index = 1
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_door")
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = -120.0
+offset_top = -286.0
+offset_right = 120.0
+offset_bottom = -250.0
+theme_override_colors/font_color = Color(0.75, 0.9, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0.03, 0.08, 0.1, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
+text = "Puerta Ancestral  0/2"
+horizontal_alignment = 1

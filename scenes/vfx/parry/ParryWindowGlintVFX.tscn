@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/simple_parry_flash.gd" id="1_script"]
+
+[node name="ParryWindowGlintVFX" type="Node2D"]
+z_index = 20
+script = ExtResource("1_script")
+
+[node name="Core" type="Polygon2D" parent="."]
+color = Color(0.94, 1, 1, 0.98)
+polygon = PackedVector2Array(0, -5, 5, 0, 0, 5, -5, 0)
+
+[node name="Horizontal" type="Polygon2D" parent="."]
+color = Color(0.48, 0.96, 1, 0.9)
+polygon = PackedVector2Array(-10, -1, 10, -1, 10, 1, -10, 1)
+
+[node name="Vertical" type="Polygon2D" parent="."]
+color = Color(0.48, 0.96, 1, 0.9)
+polygon = PackedVector2Array(-1, -10, 1, -10, 1, 10, -1, 10)

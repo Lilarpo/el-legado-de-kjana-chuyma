@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/ui/death_screen.gd" id="1"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="2"]
+
+[node name="DeathScreen" type="CanvasLayer"]
+layer = 20
+process_mode = 3
+script = ExtResource("1")
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+theme = ExtResource("2")
+
+[node name="Center" type="CenterContainer" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Content" type="VBoxContainer" parent="Overlay/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 0)
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Overlay/Center/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.96, 0.95, 1)
+theme_override_font_sizes/font_size = 60
+text = "MORISTE"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Overlay/Center/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 2)
+size_flags_horizontal = 4
+color = Color(0.18, 0.47, 0.48, 0.7)
+
+[node name="ContinueButton" type="Button" parent="Overlay/Center/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(400, 56)
+text = "Continuar"
+
+[node name="ExitButton" type="Button" parent="Overlay/Center/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(400, 56)
+text = "Salir al menú"
+

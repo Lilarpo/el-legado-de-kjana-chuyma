@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/bosses/guardian_corruption_projectile.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="Shape_projectile"]
+radius = 16.0
+
+[node name="GuardianCorruptionProjectile" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+monitoring = true
+monitorable = true
+script = ExtResource("1_script")
+
+[node name="OuterGlow" type="Polygon2D" parent="."]
+color = Color(0.12, 0.85, 0.93, 0.35)
+polygon = PackedVector2Array(-23, 0, -14, -14, 0, -21, 15, -14, 24, 0, 15, 14, 0, 21, -14, 14)
+
+[node name="Core" type="Polygon2D" parent="."]
+color = Color(0.78, 1, 1, 1)
+polygon = PackedVector2Array(-14, 0, -8, -9, 0, -13, 9, -8, 14, 0, 9, 8, 0, 13, -8, 9)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_projectile")

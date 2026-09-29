@@ -1,0 +1,123 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/coca_leaf.png" id="2_leaf"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/relics_sheet.png" id="3_relics"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/heart_full.png" id="4_heart_full"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/heart_half.png" id="5_heart_half"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/heart_empty.png" id="6_heart_empty"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fragment"]
+atlas = ExtResource("3_relics")
+region = Rect2(64, 0, 32, 32)
+
+[node name="HUD" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_script")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 1260.0
+offset_bottom = 104.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Hearts" type="HBoxContainer" parent="MarginContainer/Content"]
+custom_minimum_size = Vector2(108, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Heart1" type="TextureRect" parent="MarginContainer/Content/Hearts"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_heart_full")
+expand_mode = 1
+stretch_mode = 5
+metadata/full_texture = ExtResource("4_heart_full")
+metadata/half_texture = ExtResource("5_heart_half")
+metadata/empty_texture = ExtResource("6_heart_empty")
+
+[node name="Heart2" type="TextureRect" parent="MarginContainer/Content/Hearts"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_heart_full")
+expand_mode = 1
+stretch_mode = 5
+metadata/full_texture = ExtResource("4_heart_full")
+metadata/half_texture = ExtResource("5_heart_half")
+metadata/empty_texture = ExtResource("6_heart_empty")
+
+[node name="Heart3" type="TextureRect" parent="MarginContainer/Content/Hearts"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("4_heart_full")
+expand_mode = 1
+stretch_mode = 5
+metadata/full_texture = ExtResource("4_heart_full")
+metadata/half_texture = ExtResource("5_heart_half")
+metadata/empty_texture = ExtResource("6_heart_empty")
+
+[node name="LeavesDisplay" type="HBoxContainer" parent="MarginContainer/Content"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -168.0
+offset_top = 42.0
+offset_bottom = 74.0
+grow_horizontal = 0
+theme_override_constants/separation = 7
+alignment = 2
+
+[node name="LeafIcon" type="TextureRect" parent="MarginContainer/Content/LeavesDisplay"]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("2_leaf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LeavesLabel" type="Label" parent="MarginContainer/Content/LeavesDisplay"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.96, 0.38, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.12, 0.05, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+text = "0"
+vertical_alignment = 1
+
+[node name="FragmentsDisplay" type="HBoxContainer" parent="MarginContainer/Content"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -168.0
+offset_bottom = 34.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="FragmentIcon" type="TextureRect" parent="MarginContainer/Content/FragmentsDisplay"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_fragment")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FragmentsLabel" type="Label" parent="MarginContainer/Content/FragmentsDisplay"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.96, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.12, 0.09, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+text = "0/3"
+vertical_alignment = 1

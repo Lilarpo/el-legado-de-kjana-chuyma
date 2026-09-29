@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/boss/boss_arena_barrier.gd" id="1_script"]
+
+[node name="BossArenaBarrier" type="Node2D"]
+texture_filter = 1
+z_index = 4
+script = ExtResource("1_script")
+
+[node name="Architecture" type="Node2D" parent="."]
+
+[node name="Energy" type="Polygon2D" parent="."]
+color = Color(0.72, 1, 0.98, 0.62)
+polygon = PackedVector2Array(-12, -176, 12, -176, 9, -120, 13, -64, 8, 0, 13, 64, 9, 120, 12, 176, -12, 176, -9, 120, -13, 64, -8, 0, -13, -64, -9, -120)
+
+[node name="SealCore" type="Polygon2D" parent="."]
+position = Vector2(0, -8)
+z_index = 1
+color = Color(0.9, 1, 0.96, 0.86)
+polygon = PackedVector2Array(0, -24, 7, -8, 24, 0, 7, 8, 0, 24, -7, 8, -24, 0, -7, -8)

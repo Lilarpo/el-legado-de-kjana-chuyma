@@ -1,0 +1,211 @@
+[gd_scene format=3 uid="uid://bmb8hlwlxjd65"]
+
+[ext_resource type="Script" uid="uid://swxqx7stefrx" path="res://scripts/levels/pueblo_wayra.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://807ndpcr722p" path="res://scripts/objects/kill_zone.gd" id="3_kill_zone"]
+[ext_resource type="Script" uid="uid://bgsofwb4rygx8" path="res://scripts/levels/exit_to_lake.gd" id="4_exit"]
+[ext_resource type="Texture2D" uid="uid://cp1lmjffaexp2" path="res://assets/tiles/wayra_placeholder_atlas.png" id="5_atlas"]
+[ext_resource type="PackedScene" path="res://scenes/npc/kjana_chuyma.tscn" id="6_kjana"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="7_dialogue_box"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="8_hud"]
+[ext_resource type="PackedScene" path="res://scenes/objects/hoja_coca.tscn" id="9_hoja_coca"]
+[ext_resource type="PackedScene" path="res://scenes/objects/altar.tscn" id="10_altar"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_base.tscn" id="11_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/objects/fragmento_legado.tscn" id="12_fragmento_legado"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="13_pause_menu"]
+[ext_resource type="TileSet" uid="uid://78pbfh3pgepv" path="res://assets/sprites/environment/orillas_lago/tiles/orillas_lago_front_tileset.tres" id="14_ground_visual_tileset"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wayra"]
+texture = ExtResource("5_atlas")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_wayra"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_wayra")
+
+[sub_resource type="RectangleShape2D" id="Shape_ground_a"]
+size = Vector2(1008, 112)
+
+[sub_resource type="RectangleShape2D" id="Shape_ground_b"]
+size = Vector2(912, 112)
+
+[sub_resource type="RectangleShape2D" id="Shape_ground_c"]
+size = Vector2(752, 112)
+
+[sub_resource type="RectangleShape2D" id="Shape_ground_d"]
+size = Vector2(784, 112)
+
+[sub_resource type="RectangleShape2D" id="Shape_platform"]
+size = Vector2(192, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_platform_short"]
+size = Vector2(208, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_wall"]
+size = Vector2(64, 720)
+
+[sub_resource type="RectangleShape2D" id="Shape_death_plane"]
+size = Vector2(4840, 64)
+
+[sub_resource type="RectangleShape2D" id="Shape_exit"]
+size = Vector2(48, 160)
+
+[node name="PuebloWayra" type="Node2D" unique_id=1483530236]
+script = ExtResource("1_level")
+
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=1540836155]
+visible = false
+tile_set = SubResource("TileSet_wayra")
+
+[node name="GroundVisual" type="TileMapLayer" parent="." unique_id=1195679358]
+z_index = -1
+texture_filter = 1
+tile_set = ExtResource("14_ground_visual_tileset")
+
+[node name="Spawn" type="Marker2D" parent="." unique_id=20505943]
+position = Vector2(160, 585)
+
+[node name="Player" parent="." unique_id=55199886 instance=ExtResource("2_player")]
+position = Vector2(160, 585)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1338775522]
+limit_left = 0
+limit_top = 0
+limit_right = 3840
+limit_bottom = 720
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="EnemyBase" parent="." unique_id=1587449560 instance=ExtResource("11_enemy")]
+position = Vector2(700, 582)
+
+[node name="KjanaChuyma" parent="." unique_id=911850415 instance=ExtResource("6_kjana")]
+position = Vector2(320, 584)
+
+[node name="DialogueBox" parent="." unique_id=1311572648 instance=ExtResource("7_dialogue_box")]
+
+[node name="HUD" parent="." unique_id=2085503077 instance=ExtResource("8_hud")]
+
+[node name="PauseMenu" parent="." unique_id=1465334882 instance=ExtResource("13_pause_menu")]
+
+[node name="HojaCocaInicio" parent="." unique_id=69637528 instance=ExtResource("9_hoja_coca")]
+position = Vector2(560, 582)
+leaf_id = "pueblo_inicio"
+
+[node name="FragmentoLegadoPrototipo" parent="." unique_id=1365810118 instance=ExtResource("12_fragmento_legado")]
+position = Vector2(760, 484)
+fragment_id = "pueblo_plataforma_elevada"
+
+[node name="HojaCocaElevada" parent="." unique_id=1162757269 instance=ExtResource("9_hoja_coca")]
+position = Vector2(840, 484)
+leaf_id = "pueblo_elevada"
+
+[node name="HojaCocaMirador" parent="." unique_id=367045990 instance=ExtResource("9_hoja_coca")]
+position = Vector2(2544, 468)
+leaf_id = "pueblo_mirador"
+
+[node name="Altar" parent="." unique_id=386780514 instance=ExtResource("10_altar")]
+position = Vector2(1500, 576)
+
+[node name="GroundStart" type="StaticBody2D" parent="." unique_id=106994281]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="GroundStart" unique_id=280355940]
+position = Vector2(504, 664)
+shape = SubResource("Shape_ground_a")
+
+[node name="GroundMiddleA" type="StaticBody2D" parent="." unique_id=792856713]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="GroundMiddleA" unique_id=491212180]
+position = Vector2(1592, 664)
+shape = SubResource("Shape_ground_b")
+
+[node name="GroundMiddleB" type="StaticBody2D" parent="." unique_id=647446219]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="GroundMiddleB" unique_id=851206353]
+position = Vector2(2552, 664)
+shape = SubResource("Shape_ground_c")
+
+[node name="GroundEnd" type="StaticBody2D" parent="." unique_id=450296696]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="GroundEnd" unique_id=671694356]
+position = Vector2(3448, 664)
+shape = SubResource("Shape_ground_d")
+
+[node name="ElevatedPlatform" type="StaticBody2D" parent="." unique_id=2071392069]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="ElevatedPlatform" unique_id=1482263018]
+position = Vector2(840, 524)
+shape = SubResource("Shape_platform")
+
+[node name="StepPlatform" type="StaticBody2D" parent="." unique_id=1478148205]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="StepPlatform" unique_id=553181403]
+position = Vector2(1632, 556)
+shape = SubResource("Shape_platform_short")
+
+[node name="LookoutPlatform" type="StaticBody2D" parent="." unique_id=95797949]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="LookoutPlatform" unique_id=8994543]
+position = Vector2(2544, 508)
+shape = SubResource("Shape_platform_short")
+
+[node name="LeftBoundary" type="StaticBody2D" parent="." unique_id=10577052]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="LeftBoundary" unique_id=228570156]
+position = Vector2(-32, 360)
+shape = SubResource("Shape_wall")
+
+[node name="RightBoundary" type="StaticBody2D" parent="." unique_id=70920889]
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="RightBoundary" unique_id=2144163456]
+position = Vector2(3872, 360)
+shape = SubResource("Shape_wall")
+
+[node name="DeathPlane" type="Area2D" parent="." unique_id=1563850760]
+position = Vector2(1920, 1020)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("3_kill_zone")
+initial_respawn_position = Vector2(160, 585)
+
+[node name="Collision" type="CollisionShape2D" parent="DeathPlane" unique_id=77498312]
+shape = SubResource("Shape_death_plane")
+
+[node name="ExitToLake" type="Area2D" parent="." unique_id=215111277]
+position = Vector2(3800, 528)
+collision_layer = 16
+collision_mask = 2
+monitorable = false
+script = ExtResource("4_exit")
+
+[node name="Collision" type="CollisionShape2D" parent="ExitToLake" unique_id=1168353652]
+shape = SubResource("Shape_exit")
+
+[node name="SunsetOverlay" type="CanvasLayer" parent="." unique_id=752600870]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="SunsetOverlay" unique_id=1176786263]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(1, 0.48, 0.2, 0.08)
+
+[connection signal="attack_hit" from="Player" to="EnemyBase" method="take_damage"]
+[connection signal="health_changed" from="Player" to="HUD" method="update_from_player"]
+[connection signal="parry_success" from="Player" to="EnemyBase" method="stun"]
+[connection signal="dialogue_requested" from="KjanaChuyma" to="DialogueBox" method="show_dialogue"]
+[connection signal="body_entered" from="ExitToLake" to="ExitToLake" method="_on_body_entered"]

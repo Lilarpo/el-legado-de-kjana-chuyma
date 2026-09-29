@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/fragmento_legado.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/hud/relics_sheet.png" id="2_relics"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fragment"]
+atlas = ExtResource("2_relics")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fragment"]
+radius = 12.0
+
+[node name="FragmentoLegado" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
+monitoring = true
+monitorable = true
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.75, 1.75)
+texture = SubResource("AtlasTexture_fragment")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fragment")

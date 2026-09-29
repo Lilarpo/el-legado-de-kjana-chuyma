@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_player_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(26, 46)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit_box"]
+size = Vector2(40, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_parry_zone"]
+size = Vector2(48, 52)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_player_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -38)
+scale = Vector2(2, 2)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="AttackOrigin" type="Marker2D" parent="."]
+position = Vector2(20, -4)
+
+; FIX-ATQ: pivote dedicado que conserva el alcance derecho y se espeja en player.gd.
+[node name="AttackPivot" type="Node2D" parent="."]
+; FIX-ATQ: compensación del offset ofensivo anterior; el shape queda centrado bajo este pivot.
+position = Vector2(34, -4)
+
+; FIX-ATQ: HitBox reubicado bajo AttackPivot; capa 4 y máscara de enemigos se conservan.
+[node name="HitBox" type="Area2D" parent="AttackPivot"]
+collision_layer = 8
+collision_mask = 4
+monitoring = false
+monitorable = true
+
+; FIX-ATQ: CollisionShape centrado en el origen del HitBox para espejo exacto.
+[node name="Collision" type="CollisionShape2D" parent="AttackPivot/HitBox"]
+position = Vector2(0, 0)
+shape = SubResource("RectangleShape2D_hit_box")
+
+[node name="ParryZone" type="Area2D" parent="."]
+position = Vector2(22, -4)
+collision_layer = 8
+collision_mask = 4
+monitoring = false
+monitorable = true
+
+[node name="Collision" type="CollisionShape2D" parent="ParryZone"]
+shape = SubResource("RectangleShape2D_parry_zone")
+
+; FIX-ATQ: conserva body_entered tras mover HitBox bajo AttackPivot.
+[connection signal="body_entered" from="AttackPivot/HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="area_entered" from="AttackPivot/HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="ParryZone" to="." method="_on_parry_zone_body_entered"]

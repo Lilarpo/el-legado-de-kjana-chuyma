@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/objects/kill_zone.gd" id="2_kill_zone"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_base.tscn" id="3_enemy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1280, 64)
+
+[sub_resource type="Gradient" id="Gradient_floor"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.23, 0.13, 0.1, 1, 0.1, 0.05, 0.04, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_floor"]
+gradient = SubResource("Gradient_floor")
+width = 1280
+height = 64
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(48, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kill_zone"]
+size = Vector2(1600, 100)
+
+[node name="TestMovimiento" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(240, 505)
+
+[node name="EnemyBase" parent="." instance=ExtResource("3_enemy")]
+position = Vector2(600, 509)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(640, 560)
+collision_layer = 1
+collision_mask = 2
+
+[node name="Visual" type="Sprite2D" parent="Ground"]
+texture = SubResource("GradientTexture2D_floor")
+
+[node name="Collision" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(1040, 408)
+collision_layer = 1
+collision_mask = 2
+
+[node name="Visual" type="Polygon2D" parent="Wall"]
+polygon = PackedVector2Array(-24, -120, 24, -120, 24, 120, -24, 120)
+color = Color(0.31, 0.18, 0.13, 1)
+
+[node name="Collision" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(640, 780)
+collision_layer = 8
+collision_mask = 2
+monitoring = true
+monitorable = false
+script = ExtResource("2_kill_zone")
+initial_respawn_position = Vector2(240, 505)
+
+[node name="Collision" type="CollisionShape2D" parent="KillZone"]
+shape = SubResource("RectangleShape2D_kill_zone")
+
+[connection signal="attack_hit" from="Player" to="EnemyBase" method="take_damage"]
+[connection signal="parry_success" from="Player" to="EnemyBase" method="stun"]

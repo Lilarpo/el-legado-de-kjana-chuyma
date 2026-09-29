@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/bosses/guardian_sediento.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/enemies/contact_damage.gd" id="2_contact"]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(112, 148)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt"]
+size = Vector2(128, 152)
+
+[sub_resource type="RectangleShape2D" id="Shape_bite"]
+size = Vector2(100, 92)
+
+[sub_resource type="RectangleShape2D" id="Shape_sweep"]
+size = Vector2(300, 80)
+
+[sub_resource type="RectangleShape2D" id="Shape_contact"]
+size = Vector2(126, 150)
+
+[sub_resource type="RectangleShape2D" id="Shape_body_coil"]
+size = Vector2(152, 62)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt_coil"]
+size = Vector2(164, 66)
+
+[sub_resource type="RectangleShape2D" id="Shape_contact_coil"]
+size = Vector2(164, 66)
+
+[node name="GuardianSediento" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 26)
+shape = SubResource("Shape_body")
+
+[node name="BodyCoilCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 69)
+shape = SubResource("Shape_body_coil")
+
+[node name="ContactDamage" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_contact")
+inactive_states = PackedInt32Array(0, 6, 7, 8, 9)
+require_active = true
+
+[node name="Collision" type="CollisionShape2D" parent="ContactDamage"]
+position = Vector2(0, 25)
+shape = SubResource("Shape_contact")
+
+[node name="CoilCollision" type="CollisionShape2D" parent="ContactDamage"]
+position = Vector2(0, 67)
+shape = SubResource("Shape_contact_coil")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="Collision" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 24)
+shape = SubResource("Shape_hurt")
+
+[node name="CoilCollision" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 67)
+shape = SubResource("Shape_hurt_coil")
+
+[node name="BiteHitbox" type="Area2D" parent="."]
+position = Vector2(90, 30)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = true
+
+[node name="Collision" type="CollisionShape2D" parent="BiteHitbox"]
+shape = SubResource("Shape_bite")
+
+[node name="SweepHitbox" type="Area2D" parent="."]
+position = Vector2(0, 70)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = true
+
+[node name="Collision" type="CollisionShape2D" parent="SweepHitbox"]
+shape = SubResource("Shape_sweep")
+
+[node name="ParryCue" type="Marker2D" parent="."]
+position = Vector2(76, -112)
+
+[node name="SweepCue" type="Polygon2D" parent="."]
+position = Vector2(0, 72)
+z_index = 2
+color = Color(0.15, 0.83, 0.9, 0.22)
+polygon = PackedVector2Array(-180, -8, 180, -8, 180, 8, -180, 8)
+
+[node name="IntroAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="BiteAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="SweepAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="ProjectileAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="ParryAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="PostureBreakAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="PhaseTransitionAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="DeathAudio" type="AudioStreamPlayer2D" parent="."]

@@ -1,0 +1,212 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/boss_hud.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/boss/guardian_sediento/guardian_healthbar_source.png" id="2_healthbar"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/boss/guardian_sediento/posture_pips_source.png" id="3_pips"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.025, 0.04, 0.055, 0.93)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.19, 0.52, 0.58, 0.92)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_background"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.025, 0.055, 0.07, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.49, 0.54, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxEmpty" id="Style_transparent"]
+
+[sub_resource type="StyleBoxFlat" id="Style_fill"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.18, 0.82, 0.88, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_healthbar_ornament"]
+atlas = ExtResource("2_healthbar")
+region = Rect2(0, 0, 32, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pip_empty"]
+atlas = ExtResource("3_pips")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pip_filled"]
+atlas = ExtResource("3_pips")
+region = Rect2(64, 0, 16, 16)
+
+[node name="BossHUD" type="CanvasLayer"]
+layer = 6
+script = ExtResource("1_script")
+
+[node name="BossPanel" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -132.0
+offset_right = 360.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Background" type="Panel" parent="BossPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="AncestralDecoration" type="TextureRect" parent="BossPanel"]
+texture_filter = 1
+offset_left = 18.0
+offset_top = 14.0
+offset_right = 82.0
+offset_bottom = 98.0
+mouse_filter = 2
+modulate = Color(1, 1, 1, 0.88)
+texture = SubResource("AtlasTexture_healthbar_ornament")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="BossPanel"]
+offset_left = 104.0
+offset_top = 8.0
+offset_right = 596.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.82, 0.97, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.05, 0.07, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 21
+text = "GUARDIÁN SEDIENTO"
+horizontal_alignment = 1
+
+[node name="PhaseLabel" type="Label" parent="BossPanel"]
+offset_left = 624.0
+offset_top = 12.0
+offset_right = 700.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.48, 0.83, 0.87, 1)
+theme_override_font_sizes/font_size = 13
+text = "FASE 1"
+horizontal_alignment = 2
+
+[node name="HealthFrame" type="Panel" parent="BossPanel"]
+offset_left = 104.0
+offset_top = 42.0
+offset_right = 692.0
+offset_bottom = 68.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_background")
+
+[node name="HealthBar" type="ProgressBar" parent="BossPanel"]
+clip_contents = true
+fill_mode = 0
+offset_left = 108.0
+offset_top = 46.0
+offset_right = 688.0
+offset_bottom = 64.0
+theme_override_styles/background = SubResource("Style_transparent")
+theme_override_styles/fill = SubResource("Style_fill")
+value = 100.0
+show_percentage = false
+
+[node name="PostureLabel" type="Label" parent="BossPanel"]
+offset_left = 262.0
+offset_top = 77.0
+offset_right = 364.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.54, 0.76, 0.78, 1)
+theme_override_font_sizes/font_size = 13
+text = "POSTURA"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Posture" type="HBoxContainer" parent="BossPanel"]
+offset_left = 374.0
+offset_top = 77.0
+offset_right = 462.0
+offset_bottom = 101.0
+theme_override_constants/separation = 8
+
+[node name="Pip1" type="TextureRect" parent="BossPanel/Posture"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = SubResource("AtlasTexture_pip_empty")
+expand_mode = 1
+stretch_mode = 5
+metadata/empty_texture = SubResource("AtlasTexture_pip_empty")
+metadata/filled_texture = SubResource("AtlasTexture_pip_filled")
+
+[node name="Pip2" type="TextureRect" parent="BossPanel/Posture"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = SubResource("AtlasTexture_pip_empty")
+expand_mode = 1
+stretch_mode = 5
+metadata/empty_texture = SubResource("AtlasTexture_pip_empty")
+metadata/filled_texture = SubResource("AtlasTexture_pip_filled")
+
+[node name="Pip3" type="TextureRect" parent="BossPanel/Posture"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = SubResource("AtlasTexture_pip_empty")
+expand_mode = 1
+stretch_mode = 5
+metadata/empty_texture = SubResource("AtlasTexture_pip_empty")
+metadata/filled_texture = SubResource("AtlasTexture_pip_filled")
+[node name="PostureCount" type="Label" parent="BossPanel"]
+offset_left = 474.0
+offset_top = 77.0
+offset_right = 544.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.62, 0.96, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.09, 0.1, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 14
+text = "0/3"
+vertical_alignment = 1
+
+[node name="NormalHits" type="Label" parent="BossPanel"]
+offset_left = 558.0
+offset_top = 79.0
+offset_right = 690.0
+offset_bottom = 101.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.76, 0.69, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "GOLPES 0/4"
+vertical_alignment = 1

@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/bosses/guardian_corruption_zone.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/vfx/boss/guardian_sediento/guardian_ground_spike.png" id="2_spike"]
+
+[sub_resource type="RectangleShape2D" id="Shape_zone"]
+size = Vector2(260, 44)
+
+[node name="GuardianCorruptionZone" type="Area2D"]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = true
+script = ExtResource("1_script")
+
+[node name="GroundGlow" type="Polygon2D" parent="."]
+z_index = 1
+color = Color(0.36, 0.94, 0.97, 0.35)
+polygon = PackedVector2Array(-130, 30, -112, 17, -86, 26, -58, 14, -28, 25, 0, 12, 30, 25, 58, 14, 88, 26, 114, 17, 130, 30)
+
+[node name="SpikeLeft" type="Sprite2D" parent="."]
+position = Vector2(-88, -6)
+z_index = 2
+texture = ExtResource("2_spike")
+hframes = 8
+scale = Vector2(3, 3)
+
+[node name="SpikeCenter" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+z_index = 2
+texture = ExtResource("2_spike")
+hframes = 8
+scale = Vector2(3, 3)
+
+[node name="SpikeRight" type="Sprite2D" parent="."]
+position = Vector2(88, -6)
+z_index = 2
+texture = ExtResource("2_spike")
+hframes = 8
+scale = Vector2(3, 3)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("Shape_zone")

@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/altar.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/checkpoints/shrine/shrine_atlas.png" id="2_atlas"]
+[ext_resource type="Texture2D" path="res://assets/sprites/checkpoints/shrine/shrine_activation.png" id="3_activation"]
+[ext_resource type="Texture2D" path="res://assets/sprites/checkpoints/shrine/shrine_ripple.png" id="4_ripple"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_altar"]
+radius = 42.0
+
+[node name="Altar" type="Area2D"]
+texture_filter = 1
+collision_layer = 16
+collision_mask = 2
+monitoring = true
+monitorable = true
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("2_atlas")
+region_enabled = true
+region_rect = Rect2(16, 64, 16, 32)
+scale = Vector2(3, 3)
+z_index = 1
+
+[node name="ActiveAura" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(0, 20)
+color = Color(0.48, 0.94, 0.88, 0.18)
+polygon = PackedVector2Array(-38, 0, -22, -7, 0, -10, 22, -7, 38, 0, 22, 7, 0, 10, -22, 7)
+z_index = 0
+
+[node name="ActivationVFX" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -16)
+texture = ExtResource("3_activation")
+hframes = 6
+scale = Vector2(3, 3)
+z_index = 3
+
+[node name="RippleVFX" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -16)
+texture = ExtResource("4_ripple")
+hframes = 15
+scale = Vector2(3, 3)
+modulate = Color(0.72, 1, 0.94, 0.8)
+z_index = 2
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_altar")
+
+[node name="PromptLabel" type="Label" parent="."]
+offset_left = -90.0
+offset_top = -93.0
+offset_right = 90.0
+offset_bottom = -67.0
+theme_override_colors/font_color = Color(1, 0.9, 0.62, 1)
+theme_override_colors/font_shadow_color = Color(0.08, 0.06, 0.08, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "Descansar (E)"
+horizontal_alignment = 1

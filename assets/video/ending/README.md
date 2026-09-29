@@ -1,0 +1,1 @@
+Coloca aquí `ending_cinematic.ogv` cuando esté listo. Debe contener vídeo Ogg Theora; puede incluir audio Ogg Vorbis. Godot lo importará y `EndingSequence.tscn` lo cargará automáticamente. Mientras falte, la escena muestra directamente «CONTINUARÁ».
