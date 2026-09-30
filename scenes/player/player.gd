@@ -233,7 +233,6 @@ func _handle_movement(delta: float) -> void:
 
 
 func _get_move_direction() -> float:
-	# TODO S3: reemplazar input por controles táctiles del GDD (joystick, A, B, C, D)
 	if not InputMap.has_action("move_left") or not InputMap.has_action("move_right"):
 		return 0.0
 	return Input.get_axis("move_left", "move_right")

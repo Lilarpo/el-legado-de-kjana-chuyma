@@ -67,6 +67,13 @@ func _layout_buttons() -> void:
 	_set_button_position("InteractButton", Vector2(viewport_size.x - margin - 180.0, bottom - 230.0))
 	_set_button_position("PotionButton", Vector2(viewport_size.x - margin - 53.0, bottom - 230.0))
 	_set_button_position("PauseButton", Vector2(viewport_size.x - 24.0 - 25.0, 24.0 + 25.0))
+	call_deferred("_align_hud_to_pause")
+
+
+func _align_hud_to_pause() -> void:
+	var hud := get_parent().get_node_or_null("HUD")
+	if hud != null and hud.is_node_ready():
+		hud.align_mobile_resources_to_pause(pause_button.position.y + BUTTON_SIZES["PauseButton"])
 
 
 func _set_button_position(name: String, center: Vector2) -> void:

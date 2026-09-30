@@ -18,9 +18,10 @@ layer = 5
 script = ExtResource("1_script")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
 offset_left = 20.0
 offset_top = 18.0
-offset_right = 1260.0
+offset_right = -20.0
 offset_bottom = 142.0
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4

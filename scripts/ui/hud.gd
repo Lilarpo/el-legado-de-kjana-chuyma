@@ -7,6 +7,11 @@ extends CanvasLayer
 @onready var potion_label: Label = $MarginContainer/Content/PotionDisplay/PotionLabel
 @onready var shield_label: Label = $MarginContainer/Content/PotionDisplay/ShieldLabel
 @onready var potion_button: Button = $MarginContainer/Content/PotionDisplay/PotionButton
+@onready var resource_displays: Array[Control] = [
+	$MarginContainer/Content/FragmentsDisplay,
+	$MarginContainer/Content/LeavesDisplay,
+	$MarginContainer/Content/PotionDisplay,
+]
 
 
 func _ready() -> void:
@@ -65,3 +70,10 @@ func _on_potion_pressed() -> void:
 	var player := scene.get_node_or_null("Player") as WayraPlayer
 	if player != null:
 		player.try_use_protection_potion()
+
+
+func align_mobile_resources_to_pause(pause_bottom: float, gap: float = 22.0) -> void:
+	# Keep the three right-aligned rows together, measured from the visible pause button.
+	var delta := pause_bottom + gap - resource_displays[0].global_position.y
+	for display in resource_displays:
+		display.position.y += delta

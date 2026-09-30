@@ -1,6 +1,39 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=12 format=3]
 [ext_resource type="Script" path="res://scripts/ui/menu_panels.gd" id="1"]
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/mobile/mobile_controls_sheet.png" id="3_sheet"]
+
+[sub_resource type="AtlasTexture" id="Atlas_Left"]
+atlas = ExtResource("3_sheet")
+region = Rect2(0.0, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Right"]
+atlas = ExtResource("3_sheet")
+region = Rect2(443.5, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Jump"]
+atlas = ExtResource("3_sheet")
+region = Rect2(887.0, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Attack"]
+atlas = ExtResource("3_sheet")
+region = Rect2(1330.5, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Parry"]
+atlas = ExtResource("3_sheet")
+region = Rect2(0.0, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Interact"]
+atlas = ExtResource("3_sheet")
+region = Rect2(443.5, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Potion"]
+atlas = ExtResource("3_sheet")
+region = Rect2(887.0, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_Pause"]
+atlas = ExtResource("3_sheet")
+region = Rect2(1330.5, 443.5, 443.5, 443.5)
 
 [node name="MenuPanels" type="Control"]
 layout_mode = 1
@@ -193,39 +226,205 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="ControlsPanel/Center"]
-custom_minimum_size = Vector2(560, 0)
+custom_minimum_size = Vector2(660, 0)
 layout_mode = 2
 mouse_filter = 0
 
 [node name="Content" type="VBoxContainer" parent="ControlsPanel/Center/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 13
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="ControlsPanel/Center/Panel/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.78, 0.47, 1)
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 32
 text = "CONTROLES"
 horizontal_alignment = 1
 
-[node name="Keyboard" type="Label" parent="ControlsPanel/Center/Panel/Content"]
+[node name="ControlsTabs" type="TabContainer" parent="ControlsPanel/Center/Panel/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 450)
+layout_mode = 2
+
+[node name="PC" type="VBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Keyboard" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/PC"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
 theme_override_font_sizes/font_size = 19
-text = "Mover                 A / D  o  ← / →
-Saltar                 Espacio / W
-Doble salto        Espacio / W  (al desbloquearlo)
-Atacar                 J
-Parry                  K
-Interactuar          E
-Pausa                  Escape"
+text = "Teclas actuales del proyecto"
 
-[node name="Gamepad" type="Label" parent="ControlsPanel/Center/Panel/Content"]
+[node name="Gamepad" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/PC"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.49, 0.82, 0.82, 1)
 theme_override_font_sizes/font_size = 16
 text = "Mando: cruceta · A saltar · X atacar · Y parry"
-horizontal_alignment = 1
+
+[node name="ANDROID" type="VBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="LeftRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/LeftRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Left")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/LeftRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Mover a la izquierda"
+vertical_alignment = 1
+
+[node name="RightRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/RightRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Right")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/RightRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Mover a la derecha"
+vertical_alignment = 1
+
+[node name="JumpRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/JumpRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Jump")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/JumpRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Salto / doble salto"
+vertical_alignment = 1
+
+[node name="AttackRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/AttackRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Attack")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/AttackRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Ataque con lanza"
+vertical_alignment = 1
+
+[node name="ParryRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/ParryRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Parry")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/ParryRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Parry / Perfect Parry"
+vertical_alignment = 1
+
+[node name="InteractRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/InteractRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Interact")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/InteractRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Interactuar"
+vertical_alignment = 1
+
+[node name="PotionRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/PotionRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Potion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/PotionRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Usar Poción de Protección"
+vertical_alignment = 1
+
+[node name="PauseRow" type="HBoxContainer" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/PauseRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = SubResource("Atlas_Pause")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Description" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID/PauseRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 17
+text = "Abrir menú de Pausa"
+vertical_alignment = 1
+
+[node name="ContextHint" type="Label" parent="ControlsPanel/Center/Panel/Content/ControlsTabs/ANDROID"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.82, 0.82, 1)
+theme_override_font_sizes/font_size = 14
+text = "Interactuar aparece cerca de un elemento interactuable.
+Poción aparece si Wayra tiene al menos una Poción de Protección."
 
 [node name="CloseControlsButton" type="Button" parent="ControlsPanel/Center/Panel/Content"]
 unique_name_in_owner = true
@@ -233,4 +432,3 @@ custom_minimum_size = Vector2(260, 52)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Volver"
-

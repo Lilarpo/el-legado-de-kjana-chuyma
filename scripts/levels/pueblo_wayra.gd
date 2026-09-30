@@ -28,7 +28,7 @@ func _on_player_died() -> void:
 func _respawn_player() -> void:
 	GameState.restore_leaves_to_checkpoint()
 	get_tree().call_group("kill_zones", "restore_to_snapshot")
-	get_tree().call_group("enemies", "restore_to_snapshot") # S3: snapshots por checkpoint.
+	get_tree().call_group("enemies", "restore_to_snapshot")
 	GameState.heal_full()
 	_sync_player_health()
 	player.global_position = GameState.last_checkpoint if GameState.last_checkpoint != Vector2.ZERO else spawn.global_position

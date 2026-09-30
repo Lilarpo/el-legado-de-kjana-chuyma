@@ -2,6 +2,8 @@
 
 Proyecto: EL LEGADO DE KJANA-CHUYMA. Validado con Godot 4.7.2 estable el 26-09-2026.
 
+> **Nota histórica:** este informe describe la implementación intermedia del 26-09-2026. La versión final ya incluye `ending_01_guardian.ogv` y `ending_02_epilogue.ogv`, seleccionados de forma alternativa; véase el [README actual](../README.md#finales).
+
 ## Proyectil del Guardián
 
 La estela procedía de `GuardianCorruptionTrailVFX.tscn`: cada disparo creaba un `Line2D` separado y añadía puntos sobre el suelo mientras avanzaba. Se quitó la creación y actualización de ese VFX en `guardian_corruption_projectile.gd`. La escena antigua permanece en el proyecto sin referencias activas, para no borrar otros recursos ajenos al cambio. Se conservó el método `cancel_visuals()` como punto de compatibilidad con el reseteo del jefe.
@@ -58,7 +60,7 @@ El flujo conserva la recompensa indispensable:
 4. Si existe `res://assets/video/ending/ending_cinematic.ogv`, la escena lo carga automáticamente en un `VideoStreamPlayer` a pantalla completa. Al emitir `finished`, pasa a la tarjeta final.
 5. Si falta el vídeo, salta directamente a negro. `CONTINUARÁ` aparece en 1.1 s, permanece solo 3.5 s y después aparece **Volver al menú**. El botón carga Main Menu, quita cualquier pausa y Main Menu inicia su música.
 
-El video aún no existe. Para añadirlo, exporta la cinemática a **Ogg Theora `.ogv`** (con audio Ogg Vorbis opcional) y colócala exactamente en `assets/video/ending/ending_cinematic.ogv`. Abre el proyecto para que Godot la importe. La escena la encontrará por ruta; no será necesario modificar código ni asignar manualmente el recurso. [Documentación oficial de Godot sobre reproducción de vídeo](https://docs.godotengine.org/en/4.4/tutorials/animation/playing_videos.html).
+**Actualización de versión final:** la instrucción anterior de añadir `ending_cinematic.ogv` quedó sustituida por las dos cinemáticas ya incluidas en `assets/video/ending/`. `ending_sequence.gd` elige una sola según los fragmentos: `ending_01_guardian.ogv` → **FIN** con 1–2; `ending_02_epilogue.ogv` → **CONTINUARÁ** con 3. La prueba física de reproducción en el APK definitivo sigue pendiente. [Documentación oficial de Godot sobre reproducción de vídeo](https://docs.godotengine.org/en/4.4/tutorials/animation/playing_videos.html).
 
 No se crearon créditos, vídeo de muestra ni personajes nuevos.
 

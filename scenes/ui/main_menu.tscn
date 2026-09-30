@@ -230,7 +230,7 @@ text = "Salir"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.54, 0.53, 1)
 theme_override_font_sizes/font_size = 13
-text = "Versión Semana 3"
+text = "Versión Final"
 horizontal_alignment = 1
 
 [node name="MenuPanels" parent="." instance=ExtResource("6_panels")]

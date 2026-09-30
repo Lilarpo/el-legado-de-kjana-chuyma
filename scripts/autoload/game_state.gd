@@ -190,7 +190,6 @@ func register_fragment_collected(id: String) -> void:
 	if id == FINAL_FRAGMENT_ID:
 		final_fragment_collected = true
 	fragment_collected.emit(id)
-	# S3: reunir los 3 fragmentos decidirá el final A/B; esa lógica aún no se implementa.
 
 
 func register_guardian_defeated() -> void:

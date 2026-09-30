@@ -12,7 +12,7 @@ enum State {
 @export var max_health := 2
 @export var speed := 60.0
 @export var fall_limit_y := 800.0 # FIX2
-@export var stompable := false # S3: enemigos pisables futuros — hoy NINGÚN enemigo es pisable (decisión de diseño, GDD no define stomp).
+@export var stompable := false # Diseño actual: ningún enemigo es pisable; se conserva para una posible ampliación.
 
 const GRAVITY := 980.0
 const STUN_DURATION := 1.5
@@ -126,7 +126,6 @@ func _set_dead_state() -> void: # FIXB
 
 
 func restore_to_snapshot() -> void: # FIXB
-	# S3: snapshots por checkpoint.
 	global_position = _initial_position
 	velocity = Vector2.ZERO
 	current_health = max_health

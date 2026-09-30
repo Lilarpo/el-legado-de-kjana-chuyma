@@ -5,6 +5,8 @@ signal closed
 
 @onready var controls_panel: Control = %ControlsPanel
 @onready var close_controls_button: Button = %CloseControlsButton
+@onready var controls_tabs: TabContainer = %ControlsTabs
+@onready var keyboard_label: Label = %Keyboard
 @onready var options_panel: Control = %OptionsPanel
 @onready var close_options_button: Button = %CloseOptionsButton
 @onready var master_slider: HSlider = %MasterSlider
@@ -34,8 +36,30 @@ func open_options() -> void:
 
 func open_controls() -> void:
 	options_panel.hide()
+	_update_keyboard_bindings()
+	controls_tabs.current_tab = 1 if OS.get_name() == "Android" else 0
 	controls_panel.show()
 	close_controls_button.grab_focus()
+
+
+func _update_keyboard_bindings() -> void:
+	var rows := [
+		["Izquierda", &"move_left"], ["Derecha", &"move_right"],
+		["Salto / doble salto", &"jump"], ["Ataque", &"attack"],
+		["Parry", &"parry"], ["Interactuar", &"interact"],
+		["Poción", &"use_protection_potion"], ["Pausa", &"pause"],
+	]
+	var lines: PackedStringArray = []
+	for row in rows:
+		var keys: PackedStringArray = []
+		for event in InputMap.action_get_events(row[1]):
+			if event is InputEventKey:
+				var code: Key = event.physical_keycode if event.physical_keycode != KEY_NONE else event.keycode
+				var key_name := OS.get_keycode_string(code)
+				if not keys.has(key_name):
+					keys.append(key_name)
+		lines.append("%-21s %s" % [row[0], " / ".join(keys) if not keys.is_empty() else "Sin tecla asignada"])
+	keyboard_label.text = "\n".join(lines)
 
 
 func is_open() -> bool:
