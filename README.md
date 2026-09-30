@@ -2,8 +2,8 @@
 
 - **Autor:** Daniel Antonio Arias Poma
 - **Motor:** Godot 4.x (GDScript)
-- **Plataforma:** Android
+- **Plataforma:** Android y PC
 
 ## Estado
 
-Semana 2 - Prototipo Alpha en desarrollo
+Semana 4 - jugable
