@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/fragmento_legado.tscn" id="12_fragmento_legado"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="13_pause_menu"]
 [ext_resource type="TileSet" uid="uid://78pbfh3pgepv" path="res://assets/sprites/environment/orillas_lago/tiles/orillas_lago_front_tileset.tres" id="14_ground_visual_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MobileControls.tscn" id="mobile_controls"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wayra"]
 texture = ExtResource("5_atlas")
@@ -91,6 +92,8 @@ position = Vector2(320, 584)
 [node name="HUD" parent="." unique_id=2085503077 instance=ExtResource("8_hud")]
 
 [node name="PauseMenu" parent="." unique_id=1465334882 instance=ExtResource("13_pause_menu")]
+
+[node name="MobileControls" parent="." instance=ExtResource("mobile_controls")]
 
 [node name="HojaCocaInicio" parent="." unique_id=69637528 instance=ExtResource("9_hoja_coca")]
 position = Vector2(560, 582)

@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/tree.png" id="art_tree"]
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/leaves.png" id="art_leaves"]
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/ruins.png" id="art_ruins"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MobileControls.tscn" id="mobile_controls"]
 
 [sub_resource type="RectangleShape2D" id="Shape_ground_01"]
 size = Vector2(850, 160)
@@ -596,6 +597,8 @@ position_smoothing_speed = 8.0
 [node name="HUD" parent="." unique_id=796657543 instance=ExtResource("11_hud")]
 
 [node name="PauseMenu" parent="." unique_id=1675378700 instance=ExtResource("12_pause")]
+
+[node name="MobileControls" parent="." instance=ExtResource("mobile_controls")]
 
 [node name="AbilityUnlockNotice" type="CanvasLayer" parent="." unique_id=1934025738]
 layer = 12

@@ -139,3 +139,7 @@ func _on_body_exited(body: Node2D) -> void:
 	if body == _player_in_range:
 		_player_in_range = null
 		interaction_hint.hide()
+
+
+func is_player_in_interaction_range(player: Node2D) -> bool:
+	return _player_in_range == player

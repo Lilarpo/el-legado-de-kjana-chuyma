@@ -18,7 +18,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="KjanaChuyma" type="Area2D"]
+[node name="KjanaChuyma" type="Area2D" groups=["mobile_interactables"]]
 collision_layer = 16
 collision_mask = 2
 monitoring = true

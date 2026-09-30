@@ -60,7 +60,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name != "Player":
 		return
 	_player_nearby = body
-	prompt_label.text = "Activar (E)" if not is_activated else "Mecanismo activado"
+	prompt_label.text = ("Activar" if _mobile_controls_active() else "Activar (E)") if not is_activated else "Mecanismo activado"
 	prompt_label.show()
 
 
@@ -69,3 +69,12 @@ func _on_body_exited(body: Node2D) -> void:
 		return
 	_player_nearby = null
 	prompt_label.hide()
+
+
+func is_player_in_interaction_range(player: Node2D) -> bool:
+	return _player_nearby == player and not is_activated
+
+
+func _mobile_controls_active() -> bool:
+	var controls := get_tree().get_first_node_in_group("mobile_controls")
+	return controls != null and controls.root.visible

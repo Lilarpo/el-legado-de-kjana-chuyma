@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3]
+[gd_scene load_steps=41 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/level03_santuario_profundo.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/rock.png" id="art_rock"]
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/ruins.png" id="art_ruins"]
 [ext_resource type="Texture2D" path="res://assets/sprites/environment/orillas_lago/decorations/leaves.png" id="art_leaves"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MobileControls.tscn" id="mobile_controls"]
 
 [sub_resource type="RectangleShape2D" id="Shape_ground_entry"]
 size = Vector2(1000, 160)
@@ -801,6 +802,8 @@ position_smoothing_speed = 8.0
 
 [node name="HUD" parent="." instance=ExtResource("7_hud")]
 [node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
+
+[node name="MobileControls" parent="." instance=ExtResource("mobile_controls")]
 
 
 [node name="BackgroundFar" type="Node2D" parent="Background"]

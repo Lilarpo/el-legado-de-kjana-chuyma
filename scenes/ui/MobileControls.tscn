@@ -1,0 +1,127 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/mobile_controls.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/mobile/mobile_controls_sheet.png" id="2_sheet"]
+
+[sub_resource type="CircleShape2D" id="CircleShape_touch"]
+radius = 218.0
+
+[sub_resource type="AtlasTexture" id="Atlas_LeftButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0.0, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_RightButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(443.5, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_JumpButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(887.0, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_AttackButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1330.5, 0.0, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_ParryButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0.0, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_InteractButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(443.5, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_PotionButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(887.0, 443.5, 443.5, 443.5)
+
+[sub_resource type="AtlasTexture" id="Atlas_PauseButton"]
+atlas = ExtResource("2_sheet")
+region = Rect2(1330.5, 443.5, 443.5, 443.5)
+
+[node name="MobileControls" type="CanvasLayer"]
+layer = 7
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LeftButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.2254791, 0.2254791)
+texture_normal = SubResource("Atlas_LeftButton")
+shape = SubResource("CircleShape_touch")
+action = "move_left"
+modulate = Color(1, 1, 1, 0.8)
+
+[node name="RightButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.2254791, 0.2254791)
+texture_normal = SubResource("Atlas_RightButton")
+shape = SubResource("CircleShape_touch")
+action = "move_right"
+modulate = Color(1, 1, 1, 0.8)
+
+[node name="JumpButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.2254791, 0.2254791)
+texture_normal = SubResource("Atlas_JumpButton")
+shape = SubResource("CircleShape_touch")
+action = "jump"
+modulate = Color(1, 1, 1, 0.8)
+
+[node name="AttackButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.2254791, 0.2254791)
+texture_normal = SubResource("Atlas_AttackButton")
+shape = SubResource("CircleShape_touch")
+action = "attack"
+modulate = Color(1, 1, 1, 0.8)
+
+[node name="ParryButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.2390079, 0.2390079)
+texture_normal = SubResource("Atlas_ParryButton")
+shape = SubResource("CircleShape_touch")
+action = "parry"
+modulate = Color(1, 1, 1, 0.8)
+
+[node name="InteractButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.1848929, 0.1848929)
+texture_normal = SubResource("Atlas_InteractButton")
+shape = SubResource("CircleShape_touch")
+action = "interact"
+modulate = Color(1, 1, 1, 0.8)
+visible = false
+
+[node name="PotionButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.1758737, 0.1758737)
+texture_normal = SubResource("Atlas_PotionButton")
+shape = SubResource("CircleShape_touch")
+action = "use_protection_potion"
+modulate = Color(1, 1, 1, 0.8)
+visible = false
+
+[node name="PauseButton" type="TouchScreenButton" parent="Root"]
+texture_filter = 1
+visibility_mode = 0
+scale = Vector2(0.1127396, 0.1127396)
+texture_normal = SubResource("Atlas_PauseButton")
+shape = SubResource("CircleShape_touch")
+action = "pause"
+modulate = Color(1, 1, 1, 0.8)

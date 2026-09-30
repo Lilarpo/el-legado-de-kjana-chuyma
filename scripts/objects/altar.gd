@@ -133,5 +133,14 @@ func _update_active_aura() -> void:
 
 
 func _update_prompt() -> void:
-	prompt_label.text = "Descansar (E)"
+	prompt_label.text = "Descansar" if _mobile_controls_active() else "Descansar (E)"
 	prompt_label.visible = _player_nearby != null
+
+
+func is_player_in_interaction_range(player: Node2D) -> bool:
+	return _player_nearby == player
+
+
+func _mobile_controls_active() -> bool:
+	var controls := get_tree().get_first_node_in_group("mobile_controls")
+	return controls != null and controls.root.visible
