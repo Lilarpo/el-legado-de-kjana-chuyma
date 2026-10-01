@@ -8,7 +8,7 @@ Metroidvania 2D de aventura y combate ambientado en un mundo ficticio inspirado 
 - **Gameplay/tráiler:** enlace no incluido en este repositorio; debe añadirse cuando el autor facilite la URL de entrega.
 - **GDD Final:** no incluido en este repositorio; pendiente de enlazar al documento original.
 - **Godot utilizado:** Godot 4.x; proyecto configurado con características de Godot 4.7 y validado localmente con Godot 4.7.2.
-- **APK final:** disponible como archivo de entrega del autor; no hay enlace de descarga publicado aquí.
+- **APK final:** https://github.com/Lilarpo/el-legado-de-kjana-chuyma/releases/download/v1.0.0/El_Legado_de_Kjana_Chuyma_v1.0.apk.
 
 ## Descripción
 
