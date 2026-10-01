@@ -1,6 +1,6 @@
 # El Legado de Kjana-Chuyma
 
-Metroidvania 2D de aventura y combate ambientado en un mundo ficticio inspirado en paisajes andinos, ruinas ancestrales y un lago. **Estado: versión final jugable.** El autor confirmó la exportación del APK, su instalación y el arranque en un teléfono Android real.
+Metroidvania 2D de aventura y combate ambientado en un mundo ficticio inspirado en paisajes andinos, ruinas ancestrales y un lago. **Plataformas: Android y PC. Estado: Semana 4, versión final jugable.** El autor confirmó la exportación del APK, su instalación y el arranque en un teléfono Android real.
 
 ## Enlaces de entrega
 
