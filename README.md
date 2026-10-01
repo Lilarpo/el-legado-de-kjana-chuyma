@@ -35,7 +35,7 @@ Avanzar desde Orillas del Lago hasta Santuario Profundo, derrotar al Guardián S
 
 **Contraataque:** tras desbloquearlo, un Perfect Parry prepara el siguiente ataque que **realmente conecte**. Ese impacto inflige ×2 daño. Si el ataque falla, la carga permanece.
 
-**Hojas de Coca:** cada grupo de tres se consume automáticamente para sumar **+1 corazón máximo permanente** y recuperar **1 punto de salud actual**, hasta el nuevo máximo. Las nueve hojas permiten hasta tres corazones adicionales. La curación completa se realiza al activar un altar o reaparecer; el código actual no llena toda la salud al completar un grupo de coca.
+**Hojas de Coca:** cada grupo de tres se consume automáticamente para sumar **+1 corazón máximo permanente** y restaurar **toda la salud hasta el nuevo máximo**. Las nueve hojas permiten hasta tres corazones adicionales; los sobrantes se conservan para la siguiente mejora.
 
 **Recompensas:** `RewardOverlay` presenta Doble Salto, Contraataque y Nuevo Corazón; pausa el gameplay y atenúa el fondo mientras continúa la música. La transición entre mapas utiliza una tarjeta negra de título para **MAPA 2 — RUINAS ANCESTRALES** y **MAPA 3 — SANTUARIO PROFUNDO**.
 

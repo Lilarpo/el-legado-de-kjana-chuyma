@@ -13,7 +13,7 @@ Se inspeccionaron los archivos actuales y la copia `/tmp/week4_before` conservad
 - Spawn del Guardián en X=17660, a 340 px de la pared final. Cámara temporal de presentación para mantener visibles a Wayra y al jefe; se restaura al acercarse, al reintentar o al morir el jefe.
 - Presentación conservada: emergencia de aproximadamente 1 s, pose de 0.9 s y espera inicial de 0.55 s antes de seleccionar un ataque. No hay un golpe inmediato.
 - Eliminación de las llamas repetidas de Sed Blanca, conservando superficie, borde, dimensiones, daño y colisión.
-- Tres hojas consumidas por mejora: +1 salud máxima y +1 salud actual, conservando sobrantes. Nueve hojas únicas permiten +3 corazones. Los IDs recogidos y las mejoras persisten al morir.
+- Regla final de coca: tres hojas consumidas por mejora, +1 salud máxima y salud actual restaurada al nuevo máximo, conservando sobrantes. Nueve hojas únicas permiten +3 corazones. Los IDs recogidos y las mejoras persisten al morir.
 - Escenas de Pausa y Muerte; Theme, Opciones y Controles extraídos para compartirlos con Main Menu; conexiones a los callbacks de respawn existentes.
 - Música y sonidos de interfaz configurados para procesarse durante la pausa.
 

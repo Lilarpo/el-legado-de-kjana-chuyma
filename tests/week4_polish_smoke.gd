@@ -16,6 +16,16 @@ func check(condition: bool, message: String) -> void:
 func wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds, true).timeout
 
+func full_hearts(count: int) -> bool:
+	var hearts: HBoxContainer = level.get_node("HUD").hearts
+	if hearts.get_child_count() < count:
+		return false
+	for index in count:
+		var heart: TextureRect = hearts.get_child(index)
+		if not heart.visible or heart.texture != heart.get_meta("full_texture"):
+			return false
+	return true
+
 func capture(label: String) -> void:
 	if DisplayServer.get_name() == "headless":
 		return
@@ -54,10 +64,11 @@ func run() -> void:
 	leaves[0]._on_body_entered(player)
 	leaves[1]._on_body_entered(player)
 	check(GameState.leaves_collected == 2 and GameState.max_health == 3, "Two leaves do not upgrade health")
-	player.take_damage(1)
+	player.take_damage(2)
+	check(GameState.current_health == 1 and GameState.max_health == 3, "Wayra starts the heart upgrade at 1/3")
 	leaves[2]._on_body_entered(player)
-	check(GameState.leaves_collected == 0 and GameState.max_health == 4 and GameState.current_health == 3, "Third leaf consumes three and heals exactly the new heart")
-	check(player.max_health == 4 and player.current_health == 3 and level.get_node("HUD").hearts.get_child_count() == 4, "Player and HUD synchronize immediately")
+	check(GameState.leaves_collected == 0 and GameState.max_health == 4 and GameState.current_health == 4, "Third leaf consumes exactly three and restores 1/3 to 4/4")
+	check(player.max_health == 4 and player.current_health == 4 and full_hearts(4), "Player and HUD immediately show four full hearts")
 	leaves[2]._on_body_entered(player)
 	check(GameState.max_health == 4 and GameState.leaves_collected == 0, "Duplicate pickup gives no extra progress")
 	var npc = level.get_node("NPCs/KjanaChuyma")
@@ -72,6 +83,7 @@ func run() -> void:
 	check(GameState.leaves_collected == 1 and GameState.max_health == 4, "Fourth total leaf leaves remainder one")
 	leaves[1]._on_body_entered(player)
 	leaves[2]._on_body_entered(player)
+	check(GameState.max_health == 5 and GameState.current_health == 5 and full_hearts(5), "Second upgrade restores five full hearts")
 	npc = level.get_node("NPCs/KjanaChuyma")
 	npc._finale_dialogue_pending = true
 	npc._on_dialogue_finished()
@@ -80,9 +92,12 @@ func run() -> void:
 	await load_scene("res://scenes/levels/level03_santuario_profundo.tscn")
 	leaves = get_tree().get_nodes_in_group("hojas_coca")
 	check(leaves.size() == 3, "Level 3 has exactly three leaves")
+	GameState.take_damage(2)
+	check(GameState.current_health == 3 and GameState.max_health == 5, "Wayra starts final heart upgrade at 3/5")
 	for leaf in leaves:
 		leaf._on_body_entered(player)
-	check(GameState.max_health == 6 and GameState.heart_upgrades == 3 and GameState.leaves_collected == 0 and GameState.collected_leaf_ids.size() == 9, "Nine unique leaves grant exactly three hearts")
+	check(GameState.max_health == 6 and GameState.current_health == 6 and player.current_health == 6 and full_hearts(6), "Final upgrade restores 3/5 to 6/6 in player and HUD")
+	check(GameState.heart_upgrades == 3 and GameState.leaves_collected == 0 and GameState.collected_leaf_ids.size() == 9, "Nine unique leaves grant exactly three hearts")
 	await dismiss_rewards()
 	var hazard = level.get_node("Hazards/SedBlanca_Hazard_01")
 	check(hazard.get_node("Collision").shape != null and hazard.get_node("Visual/SpectralLayer").find_children("*Flame*", "", true, false).is_empty(), "Sed Blanca keeps collision and has no repeated flames")

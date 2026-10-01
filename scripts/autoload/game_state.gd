@@ -174,7 +174,7 @@ func register_leaf_collected(id: String) -> void:
 		leaves_collected -= 3
 		heart_upgrades += 1
 		max_health += 1
-		current_health = mini(current_health + 1, max_health)
+		current_health = max_health
 		health_changed.emit(current_health, max_health)
 	leaves_changed.emit(leaves_collected)
 	# Presentation only: notify after the health and coca HUD have updated.
