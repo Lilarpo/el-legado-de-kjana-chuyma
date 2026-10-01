@@ -4,11 +4,11 @@ Metroidvania 2D de aventura y combate ambientado en un mundo ficticio inspirado 
 
 ## Enlaces de entrega
 
-- **Repositorio:** https://github.com/Lilarpo/el-legado-de-kjana-chuyma
-- **Gameplay/tráiler:** enlace no incluido en este repositorio; debe añadirse cuando el autor facilite la URL de entrega.
-- **GDD Final:** no incluido en este repositorio; pendiente de enlazar al documento original.
+- **Código fuente / repositorio:** [GitHub — El Legado de Kjana-Chuyma](https://github.com/Lilarpo/el-legado-de-kjana-chuyma)
+- 🎬 [Gameplay / Tráiler en YouTube](https://youtu.be/xPPjjXP6zec?si=wdiRx6OTiCKmIDhB)
+- 📄 [GDD Final v4.2](docs/EL_LEGADO_DE_KJANA-CHUYMA_GDD_FINAL_V4_2.docx)
+- 📱 [APK Android v1.0.0](https://github.com/Lilarpo/el-legado-de-kjana-chuyma/releases/download/v1.0.0/El_Legado_de_Kjana_Chuyma_v1.0.apk) en [GitHub Releases](https://github.com/Lilarpo/el-legado-de-kjana-chuyma/releases/tag/v1.0.0)
 - **Godot utilizado:** Godot 4.x; proyecto configurado con características de Godot 4.7 y validado localmente con Godot 4.7.2.
-- **APK final:** disponible como archivo de entrega del autor; no hay enlace de descarga publicado aquí.
 
 ## Descripción
 
@@ -127,25 +127,25 @@ Proyecto Godot 4.x/GDScript para PC y Android. Resolución base **1280×720**, i
 | `scenes/` | Niveles, jugador, enemigos, jefe, objetos, UI y VFX. |
 | `scripts/` | Estado, guardado, niveles, combate, audio y menús. |
 | `tests/` | Pruebas automatizadas de regresión. |
-| `docs/` | Blockouts, notas de validación y matriz QA Android. |
+| `docs/` | GDD Final v4.2, blockouts, notas de validación y matriz QA Android. |
 | `project.godot`, `export_presets.cfg` | Configuración de Godot y exportación Android. |
 
 ## Evidencias del Checklist
 
-El **checklist oficial con los nombres exactos de sus 10 criterios no está en este repositorio**. Por eso se numeran las filas sin atribuirles un nombre inventado. Las evidencias de los criterios 6, 7 y 8 siguen las descripciones proporcionadas por el autor; la asociación del resto requiere el checklist original. No se asignan timestamps sin el vídeo de entrega.
+El [GDD Final v4.2](docs/EL_LEGADO_DE_KJANA-CHUYMA_GDD_FINAL_V4_2.docx) incluye los nombres exactos de los diez criterios y su matriz de evidencias. El criterio 6 conserva la redacción original sobre demostración en vivo; la entrega audiovisual indicada por el autor usa el gameplay/tráiler como evidencia funcional, sin afirmar que hubo una defensa en vivo. No se atribuyen timestamps no verificados.
 
 | # | Criterio | Evidencia en el proyecto | Evidencia documental / video |
 |---|---|---|---|
-| 1 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 2 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 3 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 4 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 5 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 6 | Nombre oficial pendiente; demostración funcional según el encargo | [`main_menu.tscn`](scenes/ui/main_menu.tscn) y los tres niveles. | Gameplay/tráiler entregado por el autor; URL y timestamps por añadir. |
-| 7 | Nombre oficial pendiente; flujo de juego según el encargo | `GameState`, niveles, altares, jefe y [`ending_sequence.gd`](scripts/ui/ending_sequence.gd). | Sección **Flujo de juego**; gameplay/tráiler sin URL aquí. |
-| 8 | Nombre oficial pendiente; dificultad técnica según el encargo | [`guardian_sediento.gd`](scripts/bosses/guardian_sediento.gd), [`player.gd`](scenes/player/player.gd), [`ParryFlash.tscn`](scenes/vfx/ParryFlash.tscn). | Sección **Dificultad técnica y solución**; gameplay/tráiler sin URL aquí. |
-| 9 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
-| 10 | Nombre oficial pendiente de checklist | Por vincular al criterio oficial. | GDD Final no disponible aquí. |
+| 1 | El videojuego ejecuta correctamente. | `project.godot`, `scenes/ui/main_menu.tscn` y tres niveles jugables. | GDD v4.2, secciones 19 y 25; APK ejecutado en dispositivo físico según el autor. |
+| 2 | La mecánica principal funciona y se entiende. | `scenes/player/player.gd`, `scripts/bosses/guardian_sediento.gd` y pruebas de Perfect Parry. | GDD v4.2, secciones 4 y 13; gameplay/tráiler oficial enlazado arriba. |
+| 3 | El jugador tiene un objetivo o reto claro. | Tres niveles, fragmentos y encuentro final con el Guardián. | GDD v4.2, secciones 7 y 9; gameplay/tráiler oficial enlazado arriba. |
+| 4 | Los controles y la interacción responden adecuadamente. | `scenes/ui/MobileControls.tscn`, `scenes/ui/menu_panels.tscn` e `InputMap`. | GDD v4.2, sección 15; QA multitouch avanzada pendiente de validación física. |
+| 5 | La interfaz / HUD es visible y útil. | `scenes/ui/hud.tscn`, HUD del jefe, Pausa y overlays. | GDD v4.2, sección 14; [matriz QA Android](docs/qa_android_final.md). |
+| 6 | El estudiante demuestra el juego en vivo. | El juego abre desde Main Menu y recorre los tres niveles hasta los finales. | [Gameplay / Tráiler oficial en YouTube](https://youtu.be/xPPjjXP6zec?si=wdiRx6OTiCKmIDhB), evidencia audiovisual sustitutiva; la modalidad final no incluyó defensa en vivo. |
+| 7 | Explica claramente cómo funciona su videojuego. | Progresión, guardado, jefe y selección de finales descritos en este README. | GDD v4.2 y sección **Flujo de juego**. |
+| 8 | Explica una dificultad técnica y cómo la resolvió. | Destello y ventana de Perfect Parry en `guardian_sediento.gd` y `player.gd`. | GDD v4.2, dificultades técnicas resueltas; sección **Dificultad técnica y solución**. |
+| 9 | Presenta el video de gameplay solicitado. | Versión jugable mostrada en el vídeo de entrega. | [Gameplay / Tráiler oficial en YouTube](https://youtu.be/xPPjjXP6zec?si=wdiRx6OTiCKmIDhB). |
+| 10 | Presenta correctamente los enlaces o archivos de entrega. | Repositorio, GDD, vídeo y APK reunidos en **Enlaces de entrega**. | [GDD v4.2](docs/EL_LEGADO_DE_KJANA-CHUYMA_GDD_FINAL_V4_2.docx), gameplay/tráiler oficial enlazado arriba y APK en GitHub Releases. |
 
 ## Flujo de juego
 
@@ -169,7 +169,7 @@ Enfrentar al Guardián Sediento
 Final según fragmentos
 ```
 
-La exploración y el combate alimentan la progresión: las recompensas abren nuevas rutas, los altares conservan el avance y la victoria sobre el jefe desemboca en **FIN** o **CONTINUARÁ** según los fragmentos. La demostración funcional se realizó mediante el gameplay/tráiler entregado por el autor; falta incorporar su enlace al repositorio. No se presupone una defensa en vivo.
+La exploración y el combate alimentan la progresión: las recompensas abren nuevas rutas, los altares conservan el avance y la victoria sobre el jefe desemboca en **FIN** o **CONTINUARÁ** según los fragmentos. La demostración funcional se presenta mediante el gameplay/tráiler oficial enlazado en **Enlaces de entrega**; no se afirma una defensa en vivo.
 
 ## Dificultad técnica y solución
 
