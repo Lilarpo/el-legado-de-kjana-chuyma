@@ -130,23 +130,6 @@ Proyecto Godot 4.x/GDScript para PC y Android. Resolución base **1280×720**, i
 | `docs/` | GDD Final v4.2, blockouts, notas de validación y matriz QA Android. |
 | `project.godot`, `export_presets.cfg` | Configuración de Godot y exportación Android. |
 
-## Evidencias del Checklist
-
-El [GDD Final v4.2](docs/EL_LEGADO_DE_KJANA-CHUYMA_GDD_FINAL_V4_2.docx) incluye los nombres exactos de los diez criterios y su matriz de evidencias. El criterio 6 conserva la redacción original sobre demostración en vivo; la entrega audiovisual indicada por el autor usa el gameplay/tráiler como evidencia funcional, sin afirmar que hubo una defensa en vivo. No se atribuyen timestamps no verificados.
-
-| # | Criterio | Evidencia en el proyecto | Evidencia documental / video |
-|---|---|---|---|
-| 1 | El videojuego ejecuta correctamente. | `project.godot`, `scenes/ui/main_menu.tscn` y tres niveles jugables. | GDD v4.2, secciones 19 y 25; APK ejecutado en dispositivo físico según el autor. |
-| 2 | La mecánica principal funciona y se entiende. | `scenes/player/player.gd`, `scripts/bosses/guardian_sediento.gd` y pruebas de Perfect Parry. | GDD v4.2, secciones 4 y 13; gameplay/tráiler oficial enlazado arriba. |
-| 3 | El jugador tiene un objetivo o reto claro. | Tres niveles, fragmentos y encuentro final con el Guardián. | GDD v4.2, secciones 7 y 9; gameplay/tráiler oficial enlazado arriba. |
-| 4 | Los controles y la interacción responden adecuadamente. | `scenes/ui/MobileControls.tscn`, `scenes/ui/menu_panels.tscn` e `InputMap`. | GDD v4.2, sección 15; QA multitouch avanzada pendiente de validación física. |
-| 5 | La interfaz / HUD es visible y útil. | `scenes/ui/hud.tscn`, HUD del jefe, Pausa y overlays. | GDD v4.2, sección 14; [matriz QA Android](docs/qa_android_final.md). |
-| 6 | El estudiante demuestra el juego en vivo. | El juego abre desde Main Menu y recorre los tres niveles hasta los finales. | [Gameplay / Tráiler oficial en YouTube](https://youtu.be/xPPjjXP6zec?si=wdiRx6OTiCKmIDhB), evidencia audiovisual sustitutiva; la modalidad final no incluyó defensa en vivo. |
-| 7 | Explica claramente cómo funciona su videojuego. | Progresión, guardado, jefe y selección de finales descritos en este README. | GDD v4.2 y sección **Flujo de juego**. |
-| 8 | Explica una dificultad técnica y cómo la resolvió. | Destello y ventana de Perfect Parry en `guardian_sediento.gd` y `player.gd`. | GDD v4.2, dificultades técnicas resueltas; sección **Dificultad técnica y solución**. |
-| 9 | Presenta el video de gameplay solicitado. | Versión jugable mostrada en el vídeo de entrega. | [Gameplay / Tráiler oficial en YouTube](https://youtu.be/xPPjjXP6zec?si=wdiRx6OTiCKmIDhB). |
-| 10 | Presenta correctamente los enlaces o archivos de entrega. | Repositorio, GDD, vídeo y APK reunidos en **Enlaces de entrega**. | [GDD v4.2](docs/EL_LEGADO_DE_KJANA-CHUYMA_GDD_FINAL_V4_2.docx), gameplay/tráiler oficial enlazado arriba y APK en GitHub Releases. |
-
 ## Flujo de juego
 
 ```text
